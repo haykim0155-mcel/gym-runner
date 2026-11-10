@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>体育館ラン & 筋トレ Tracker</title>
+  <style>
+    :root {
+      --bg: #121417;
+      --card: #1c2026;
+      --card-border: #2c333e;
+      --text: #f0f4f8;
+      --text-sub: #9ba7b7;
+      --accent-jog: #00d26a;
+      --accent-jog-dark: #009e4f;
+      --accent-dash: #ff7b00;
+      --accent-pip: #3b82f6;
+      --accent-danger: #ef4444;
+      --accent-gym: #a855f7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    header {
+      background: #181c22;
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--card-border);
+      flex-shrink: 0;
+    }
+
+    .app-title {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .header-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-header {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* タブナビゲーション */
+    nav {
+      display: flex;
+      background: #15181e;
+      border-bottom: 1px solid var(--card-border);
+      flex-shrink: 0;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 12px 4px;
+      background: none;
+      border: none;
+      color: var(--text-sub);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      color: #fff;
+      border-bottom-color: var(--accent-jog);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .tab-btn.dash-tab.active {
+      border-bottom-color: var(--accent-dash);
+    }
+    .tab-btn.gym-tab.active {
+      border-bottom-color: var(--accent-gym);
+    }
+
+    /* メインコンテンツ領域 */
+    main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tab-pane {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      gap: 12px;
+    }
+    .tab-pane.active {
+      display: flex;
+    }
+
+    /* 設定エリア */
+    .config-box {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .config-input {
+      width: 70px;
+      background: #121417;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 4px 6px;
+      border-radius: 4px;
+      text-align: right;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    /* ディスプレイパネル */
+    .display-panel {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .time-large {
+      font-size: 2.8rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .metrics-row {
+      display: flex;
+      justify-content: space-around;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 8px;
+      margin-top: 4px;
+    }
+
+    .metric-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .metric-label {
+      font-size: 0.7rem;
+      color: var(--text-sub);
+    }
+    .metric-val {
+      font-size: 1.35rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* 巨大アクションボタン */
+    .huge-tap-btn {
+      width: 100%;
+      min-height: 130px;
+      border-radius: 16px;
+      border: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      transition: transform 0.08s, opacity 0.1s;
+      flex-shrink: 0;
+      touch-action: manipulation;
+    }
+    .huge-tap-btn:active {
+      transform: scale(0.97);
+      opacity: 0.9;
+    }
+    .huge-tap-btn.jog-btn {
+      background: linear-gradient(135deg, var(--accent-jog), var(--accent-jog-dark));
+      color: #041f0e;
+    }
+    .huge-tap-btn.dash-btn {
+      background: linear-gradient(135deg, var(--accent-dash), #c25e00);
+      color: #fff;
+    }
+    .tap-subtitle {
+      font-size: 0.85rem;
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
+    /* 左手優先：下部レイアウト（左に大型PiP、右にラップリスト） */
+    .split-bottom-area {
+      flex: 1;
+      display: flex;
+      gap: 10px;
+      min-height: 120px;
+      overflow: hidden;
+    }
+
+    /* 左手で押しやすい大型PiP */
+    .left-pip-col {
+      width: 82px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-pip-giant {
+      flex: 1;
+      background: #1a273b;
+      border: 2px solid var(--accent-pip);
+      border-radius: 12px;
+      color: #93c5fd;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      touch-action: manipulation;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .btn-pip-giant:active {
+      background: var(--accent-pip);
+      color: #fff;
+    }
+
+    .btn-undo {
+      background: #2a1f24;
+      border: 1px solid #5a2e38;
+      color: #fca5a5;
+      padding: 8px 2px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    /* ラップリスト（タイム ＋ 右側に距離入力） */
+    .lap-list-container {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .lap-header {
+      padding: 6px 10px;
+      font-size: 0.72rem;
+      color: var(--text-sub);
+      background: #16191f;
+      display: grid;
+      grid-template-columns: 36px 1fr 1fr 75px;
+      text-align: right;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .lap-header > span:nth-child(1),
+    .lap-header > span:nth-child(2) {
+      text-align: left;
+    }
+
+    .lap-rows {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 0;
+    }
+
+    .lap-row {
+      display: grid;
+      grid-template-columns: 36px 1fr 1fr 75px;
+      align-items: center;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      font-variant-numeric: tabular-nums;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      text-align: right;
+    }
+    .lap-row > span:nth-child(1),
+    .lap-row > span:nth-child(2) {
+      text-align: left;
+    }
+
+    .lap-dist-input {
+      width: 100%;
+      background: #111418;
+      border: 1px solid #333d4b;
+      color: #00d26a;
+      border-radius: 4px;
+      padding: 3px 4px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-align: right;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
+    /* コントロールボトムバー */
+    .bottom-controls {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-ctrl {
+      flex: 1;
+      padding: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-start { background: #00d26a; color: #041f0e; }
+    .btn-pause { background: #eab308; color: #1c1500; }
+    .btn-finish { background: var(--accent-danger); color: #fff; }
+
+    /* 筋トレ・履歴共通 */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+    .form-group label {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+    }
+    .form-input {
+      background: #15181e;
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      color: #fff;
+      padding: 8px;
+      font-size: 0.9rem;
+    }
+    .history-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+    }
+
+    /* PiP用非表示キャンバス・ビデオ */
+    #pipCanvas, #pipVideo {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="app-title">GYM RUNNER</div>
+    <div class="header-btns">
+      <button class="btn-header" id="fullscreenBtn">⛶ 全画面</button>
+    </div>
+  </header>
+
+  <nav>
+    <button class="tab-btn active" data-tab="jogTab">ジョグ周回</button>
+    <button class="tab-btn dash-tab" data-tab="dashTab">ダッシュ計測</button>
+    <button class="tab-btn gym-tab" data-tab="gymTab">筋トレ</button>
+    <button class="tab-btn" data-tab="historyTab">保存履歴</button>
+  </nav>
+
+  <main>
+    <!-- 1. ジョグ周回タブ -->
+    <div class="tab-pane active" id="jogTab">
+      <div class="config-box">
+        <span>体育館 1周の距離:</span>
+        <div>
+          <input type="number" id="jogLapDistance" class="config-input" value="275" step="5">
+          <span> m</span>
+        </div>
+      </div>
+
+      <div class="display-panel">
+        <div class="time-large" id="jogTimeDisplay">00:00.0</div>
+        <div class="metrics-row">
+          <div class="metric-item">
+            <span class="metric-label">周回数</span>
+            <span class="metric-val" id="jogLapCount">0 <small style="font-size:0.8rem">周</small></span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">走行距離</span>
+            <span class="metric-val" id="jogDistDisplay">0.00 <small style="font-size:0.8rem">km</small></span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">ペース</span>
+            <span class="metric-val" id="jogPaceDisplay">--'--"</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="huge-tap-btn jog-btn" id="jogTapBtn">
+        <span>+1 周 カウント</span>
+        <span class="tap-subtitle">タップで周回＆ラップ刻み</span>
+      </button>
+
+      <div class="split-bottom-area">
+        <div class="left-pip-col">
+          <button class="btn-pip-giant" id="pipJogBtn">
+            <span style="font-size:1.2rem">🗗</span>
+            <span>PiP<br>小窓</span>
+          </button>
+          <button class="btn-undo" id="jogUndoBtn">−1周 戻す</button>
+        </div>
+
+        <div class="lap-list-container">
+          <div class="lap-header">
+            <span>#</span>
+            <span>区間</span>
+            <span>合計</span>
+            <span>通過(m)</span>
+          </div>
+          <div class="lap-rows" id="jogLapList"></div>
+        </div>
+      </div>
+
+      <div class="bottom-controls">
+        <button class="btn-ctrl btn-start" id="jogStartBtn">スタート</button>
+        <button class="btn-ctrl btn-pause" id="jogPauseBtn" style="display:none;">一時停止</button>
+        <button class="btn-ctrl btn-finish" id="jogFinishBtn">終了 & 保存</button>
+      </div>
+    </div>
+
+    <!-- 2. ダッシュ計測タブ -->
+    <div class="tab-pane" id="dashTab">
+      <div class="config-box">
+        <span>締めダッシュ目標距離:</span>
+        <div>
+          <input type="number" id="dashTargetDistance" class="config-input" value="200" step="10">
+          <span> m</span>
+        </div>
+      </div>
+
+      <div class="display-panel">
+        <div class="time-large" id="dashTimeDisplay" style="color:var(--accent-dash);">00:00.00</div>
+        <div class="metrics-row">
+          <div class="metric-item">
+            <span class="metric-label">記録ラップ数</span>
+            <span class="metric-val" id="dashLapCount">0</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">最新ラップ</span>
+            <span class="metric-val" id="dashLastLap">--.--</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="huge-tap-btn dash-btn" id="dashTapBtn">
+        <span>タップしてタイム記録</span>
+        <span class="tap-subtitle">通過ごとにタップ（距離は右側に入力）</span>
+      </button>
+
+      <div class="split-bottom-area">
+        <div class="left-pip-col">
+          <button class="btn-pip-giant" id="pipDashBtn" style="border-color:var(--accent-dash); color:#fdba74;">
+            <span style="font-size:1.2rem">🗗</span>
+            <span>PiP<br>小窓</span>
+          </button>
+        </div>
+
+        <div class="lap-list-container">
+          <div class="lap-header">
+            <span>#</span>
+            <span>区間</span>
+            <span>累計</span>
+            <span>距離(m)</span>
+          </div>
+          <div class="lap-rows" id="dashLapList"></div>
+        </div>
+      </div>
+
+      <div class="bottom-controls">
+        <button class="btn-ctrl btn-start" id="dashStartBtn">スタート</button>
+        <button class="btn-ctrl btn-pause" id="dashPauseBtn" style="display:none;">一時停止</button>
+        <button class="btn-ctrl btn-finish" id="dashFinishBtn">終了 & 保存</button>
+      </div>
+    </div>
+
+    <!-- 3. 筋トレタブ -->
+    <div class="tab-pane" id="gymTab">
+      <div class="config-box" style="display:block;">
+        <div class="form-group">
+          <label>マシン名 / 種目</label>
+          <input type="text" id="gymName" class="form-input" placeholder="例: チェストプレス、レッグプレス">
+        </div>
+        <div style="display:flex; gap:8px;">
+          <div class="form-group" style="flex:1;">
+            <label>重量 (kg)</label>
+            <input type="number" id="gymWeight" class="form-input" placeholder="45">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label>回数 / 時間</label>
+            <input type="text" id="gymReps" class="form-input" placeholder="10回 または 30秒">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>メモ / 速度など</label>
+          <input type="text" id="gymMemo" class="form-input" placeholder="3セット、平均速度など">
+        </div>
+        <button class="btn-ctrl btn-start" id="gymSaveBtn" style="width:100%; margin-top:6px;">筋トレログを保存</button>
+      </div>
+      <div style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">最近の筋トレ記録:</div>
+      <div id="gymRecentList" style="flex:1; overflow-y:auto;"></div>
+    </div>
+
+    <!-- 4. 履歴タブ -->
+    <div class="tab-pane" id="historyTab">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <span style="font-size:0.85rem; color:var(--text-sub);">保存されたアクティビティ</span>
+        <button class="btn-header" id="clearHistoryBtn" style="color:var(--accent-danger);">全削除</button>
+      </div>
+      <div id="historyList" style="flex:1; overflow-y:auto;"></div>
+    </div>
+  </main>
+
+  <!-- PiP用隠し要素 -->
+  <canvas id="pipCanvas" width="360" height="200"></canvas>
+  <video id="pipVideo" autoplay muted playsinline></video>
+
+  <script>
+    // --- ユーティリティ ---
+    const formatTime = (ms, showHundredths = false) => {
+      const m = Math.floor(ms / 60000);
+      const s = Math.floor((ms % 60000) / 1000);
+      const tenth = Math.floor((ms % 1000) / 100);
+      const hundredth = Math.floor((ms % 1000) / 10);
+      const mm = String(m).padStart(2, '0');
+      const ss = String(s).padStart(2, '0');
+      if (showHundredths) {
+        return `${mm}:${ss}.${String(hundredth).padStart(2, '0')}`;
+      }
+      return `${mm}:${ss}.${tenth}`;
+    };
+
+    const getNowStamp = () => {
+      const d = new Date();
+      return `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    };
+
+    const vibrate = (ms = 40) => {
+      if (navigator.vibrate) navigator.vibrate(ms);
+    };
+
+    // --- タブ切り替え ---
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+        if (btn.dataset.tab === 'historyTab') renderHistory();
+        if (btn.dataset.tab === 'gymTab') renderGymList();
+      });
+    });
+
+    // --- 全画面切り替え ---
+    document.getElementById('fullscreenBtn').addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    });
+
+    // ==========================================
+    // ジョグ周回ロジック
+    // ==========================================
+    let jogTimer = null;
+    let jogStartTime = 0;
+    let jogElapsed = 0;
+    let jogIsRunning = false;
+    let jogLaps = []; // { lapIndex, lapTime, totalTime, distanceM }
+
+    const jogTimeDisplay = document.getElementById('jogTimeDisplay');
+    const jogLapCount = document.getElementById('jogLapCount');
+    const jogDistDisplay = document.getElementById('jogDistDisplay');
+    const jogPaceDisplay = document.getElementById('jogPaceDisplay');
+    const jogLapList = document.getElementById('jogLapList');
+    const jogLapDistanceInput = document.getElementById('jogLapDistance');
+
+    function updateJogDisplay() {
+      const totalMs = jogIsRunning ? jogElapsed + (Date.now() - jogStartTime) : jogElapsed;
+      jogTimeDisplay.innerText = formatTime(totalMs);
+
+      const oneLapM = parseFloat(jogLapDistanceInput.value) || 275;
+      const totalDistM = jogLaps.length * oneLapM;
+      jogDistDisplay.innerHTML = `${(totalDistM / 1000).toFixed(2)} <small style="font-size:0.8rem">km</small>`;
+      jogLapCount.innerHTML = `${jogLaps.length} <small style="font-size:0.8rem">周</small>`;
+
+      if (totalDistM > 0 && totalMs > 1000) {
+        const secPerKm = (totalMs / 1000) / (totalDistM / 1000);
+        const pMin = Math.floor(secPerKm / 60);
+        const pSec = Math.floor(secPerKm % 60);
+        jogPaceDisplay.innerText = `${pMin}'${String(pSec).padStart(2,'0')}"`;
+      } else {
+        jogPaceDisplay.innerText = `--'--"`;
+      }
+      drawPipCanvas('JOG', jogTimeDisplay.innerText, `${jogLaps.length}周 / ${(totalDistM/1000).toFixed(2)}km`);
+    }
+
+    document.getElementById('jogStartBtn').addEventListener('click', () => {
+      if (!jogIsRunning) {
+        jogIsRunning = true;
+        jogStartTime = Date.now();
+        jogTimer = setInterval(updateJogDisplay, 80);
+        document.getElementById('jogStartBtn').style.display = 'none';
+        document.getElementById('jogPauseBtn').style.display = 'block';
+        vibrate();
+      }
+    });
+
+    document.getElementById('jogPauseBtn').addEventListener('click', () => {
+      if (jogIsRunning) {
+        jogIsRunning = false;
+        jogElapsed += Date.now() - jogStartTime;
+        clearInterval(jogTimer);
+        document.getElementById('jogStartBtn').style.display = 'block';
+        document.getElementById('jogPauseBtn').style.display = 'none';
+        updateJogDisplay();
+      }
+    });
+
+    function addJogLap() {
+      if (!jogIsRunning && jogElapsed === 0) {
+        // 未スタートなら自動スタート
+        document.getElementById('jogStartBtn').click();
+      }
+      const totalMs = jogIsRunning ? jogElapsed + (Date.now() - jogStartTime) : jogElapsed;
+      const prevTotal = jogLaps.length > 0 ? jogLaps[jogLaps.length - 1].totalTime : 0;
+      const lapMs = totalMs - prevTotal;
+
+      const oneLapM = parseFloat(jogLapDistanceInput.value) || 275;
+      const approxDist = (jogLaps.length + 1) * oneLapM;
+
+      const lapData = {
+        lapIndex: jogLaps.length + 1,
+        lapTime: lapMs,
+        totalTime: totalMs,
+        distanceM: approxDist
+      };
+      jogLaps.push(lapData);
+      renderJogLaps();
+      updateJogDisplay();
+      vibrate(60);
+    }
+
+    document.getElementById('jogTapBtn').addEventListener('click', addJogLap);
+
+    document.getElementById('jogUndoBtn').addEventListener('click', () => {
+      if (jogLaps.length > 0) {
+        jogLaps.pop();
+        renderJogLaps();
+        updateJogDisplay();
+        vibrate([30, 30]);
+      }
+    });
+
+    function renderJogLaps() {
+      jogLapList.innerHTML = '';
+      [...jogLaps].reverse().forEach((l, revIdx) => {
+        const actualIdx = jogLaps.length - 1 - revIdx;
+        const row = document.createElement('div');
+        row.className = 'lap-row';
+        row.innerHTML = `
+          <span style="color:var(--text-sub);">#${l.lapIndex}</span>
+          <span>${formatTime(l.lapTime)}</span>
+          <span style="color:var(--text-sub);">${formatTime(l.totalTime)}</span>
+          <span>
+            <input type="number" class="lap-dist-input" value="${l.distanceM}" data-idx="${actualIdx}">
+          </span>
+        `;
+        row.querySelector('.lap-dist-input').addEventListener('change', (e) => {
+          jogLaps[actualIdx].distanceM = parseFloat(e.target.value) || 0;
+        });
+        jogLapList.appendChild(row);
+      });
+    }
+
+    document.getElementById('jogFinishBtn').addEventListener('click', () => {
+      if (jogIsRunning) document.getElementById('jogPauseBtn').click();
+      const totalMs = jogElapsed;
+      if (totalMs < 1000 && jogLaps.length === 0) return;
+
+      const oneLapM = parseFloat(jogLapDistanceInput.value) || 275;
+      const finalDist = jogLaps.length * oneLapM;
+
+      const log = {
+        id: Date.now(),
+        date: getNowStamp(),
+        type: 'ジョグ周回',
+        timeStr: formatTime(totalMs),
+        lapsCount: jogLaps.length,
+        distStr: `${(finalDist/1000).toFixed(2)} km`,
+        details: jogLaps
+      };
+      saveLog(log);
+      alert(`ジョグを保存しました！\n日時: ${log.date}\n走行距離: ${log.distStr}\nタイム: ${log.timeStr}`);
+
+      // リセット
+      jogElapsed = 0;
+      jogLaps = [];
+      renderJogLaps();
+      updateJogDisplay();
+    });
+
+    // ==========================================
+    // ダッシュ計測ロジック（自由入力＆50m強調撤廃）
+    // ==========================================
+    let dashTimer = null;
+    let dashStartTime = 0;
+    let dashElapsed = 0;
+    let dashIsRunning = false;
+    let dashLaps = []; // { lapIndex, lapTime, totalTime, distanceM }
+
+    const dashTimeDisplay = document.getElementById('dashTimeDisplay');
+    const dashLapCount = document.getElementById('dashLapCount');
+    const dashLastLap = document.getElementById('dashLastLap');
+    const dashLapList = document.getElementById('dashLapList');
+    const dashTargetInput = document.getElementById('dashTargetDistance');
+
+    function updateDashDisplay() {
+      const totalMs = dashIsRunning ? dashElapsed + (Date.now() - dashStartTime) : dashElapsed;
+      dashTimeDisplay.innerText = formatTime(totalMs, true);
+      drawPipCanvas('DASH', dashTimeDisplay.innerText, `ラップ数: ${dashLaps.length} (目標: ${dashTargetInput.value}m)`);
+    }
+
+    document.getElementById('dashStartBtn').addEventListener('click', () => {
+      if (!dashIsRunning) {
+        dashIsRunning = true;
+        dashStartTime = Date.now();
+        dashTimer = setInterval(updateDashDisplay, 30);
+        document.getElementById('dashStartBtn').style.display = 'none';
+        document.getElementById('dashPauseBtn').style.display = 'block';
+        vibrate();
+      }
+    });
+
+    document.getElementById('dashPauseBtn').addEventListener('click', () => {
+      if (dashIsRunning) {
+        dashIsRunning = false;
+        dashElapsed += Date.now() - dashStartTime;
+        clearInterval(dashTimer);
+        document.getElementById('dashStartBtn').style.display = 'block';
+        document.getElementById('dashPauseBtn').style.display = 'none';
+        updateDashDisplay();
+      }
+    });
+
+    function addDashLap() {
+      if (!dashIsRunning && dashElapsed === 0) {
+        document.getElementById('dashStartBtn').click();
+        return;
+      }
+      const totalMs = dashIsRunning ? dashElapsed + (Date.now() - dashStartTime) : dashElapsed;
+      const prevTotal = dashLaps.length > 0 ? dashLaps[dashLaps.length - 1].totalTime : 0;
+      const lapMs = totalMs - prevTotal;
+
+      // 便宜上の初期推定値（後から入力欄で即修正可能）
+      const estimatedM = (dashLaps.length + 1) * 50;
+
+      const lapData = {
+        lapIndex: dashLaps.length + 1,
+        lapTime: lapMs,
+        totalTime: totalMs,
+        distanceM: estimatedM
+      };
+      dashLaps.push(lapData);
+      dashLapCount.innerText = dashLaps.length;
+      dashLastLap.innerText = formatTime(lapMs, true);
+
+      renderDashLaps();
+      vibrate(50);
+    }
+
+    document.getElementById('dashTapBtn').addEventListener('click', addDashLap);
+
+    function renderDashLaps() {
+      dashLapList.innerHTML = '';
+      [...dashLaps].reverse().forEach((l, revIdx) => {
+        const actualIdx = dashLaps.length - 1 - revIdx;
+        const row = document.createElement('div');
+        row.className = 'lap-row';
+        row.innerHTML = `
+          <span style="color:var(--text-sub);">#${l.lapIndex}</span>
+          <span style="font-weight:700;">${formatTime(l.lapTime, true)}</span>
+          <span style="color:var(--text-sub);">${formatTime(l.totalTime, true)}</span>
+          <span>
+            <input type="number" class="lap-dist-input" value="${l.distanceM}" data-idx="${actualIdx}">
+          </span>
+        `;
+        row.querySelector('.lap-dist-input').addEventListener('change', (e) => {
+          dashLaps[actualIdx].distanceM = parseFloat(e.target.value) || 0;
+        });
+        dashLapList.appendChild(row);
+      });
+    }
+
+    document.getElementById('dashFinishBtn').addEventListener('click', () => {
+      if (dashIsRunning) document.getElementById('dashPauseBtn').click();
+      const totalMs = dashElapsed;
+      if (totalMs < 500 && dashLaps.length === 0) return;
+
+      const targetM = dashTargetInput.value || 200;
+      const log = {
+        id: Date.now(),
+        date: getNowStamp(),
+        type: `ダッシュ計測 (${targetM}m目標)`,
+        timeStr: formatTime(totalMs, true),
+        lapsCount: dashLaps.length,
+        distStr: `目標 ${targetM}m`,
+        details: dashLaps
+      };
+      saveLog(log);
+      alert(`ダッシュ結果を保存しました！\n日時: ${log.date}\n総タイム: ${log.timeStr}\nラップ数: ${dashLaps.length}`);
+
+      dashElapsed = 0;
+      dashLaps = [];
+      dashLapCount.innerText = '0';
+      dashLastLap.innerText = '--.--';
+      renderDashLaps();
+      updateDashDisplay();
+    });
+
+    // ==========================================
+    // 筋トレロジック
+    // ==========================================
+    document.getElementById('gymSaveBtn').addEventListener('click', () => {
+      const name = document.getElementById('gymName').value.trim();
+      const weight = document.getElementById('gymWeight').value.trim();
+      const reps = document.getElementById('gymReps').value.trim();
+      const memo = document.getElementById('gymMemo').value.trim();
+
+      if (!name) {
+        alert('マシン名または種目名を入力してください');
+        return;
+      }
+
+      const log = {
+        id: Date.now(),
+        date: getNowStamp(),
+        type: '筋トレ',
+        timeStr: '-',
+        distStr: `${name} (${weight ? weight + 'kg' : ''} ${reps})`,
+        memo: memo
+      };
+      saveLog(log);
+      alert('筋トレを記録しました！');
+      document.getElementById('gymName').value = '';
+      document.getElementById('gymWeight').value = '';
+      document.getElementById('gymReps').value = '';
+      document.getElementById('gymMemo').value = '';
+      renderGymList();
+    });
+
+    function renderGymList() {
+      const logs = getLogs().filter(l => l.type === '筋トレ');
+      const box = document.getElementById('gymRecentList');
+      if (logs.length === 0) {
+        box.innerHTML = '<div style="color:var(--text-sub); padding:10px 0;">記録はまだありません</div>';
+        return;
+      }
+      box.innerHTML = logs.slice(0, 8).map(l => `
+        <div class="history-card">
+          <div style="color:var(--accent-gym); font-weight:700;">${l.distStr}</div>
+          <div style="color:var(--text-sub); font-size:0.75rem;">${l.date} ${l.memo ? '| ' + l.memo : ''}</div>
+        </div>
+      `).join('');
+    }
+
+    // ==========================================
+    // ログ保存 & 履歴機能
+    // ==========================================
+    function getLogs() {
+      return JSON.parse(localStorage.getItem('gym_tracker_logs') || '[]');
+    }
+
+    function saveLog(log) {
+      const logs = getLogs();
+      logs.unshift(log);
+      localStorage.setItem('gym_tracker_logs', JSON.stringify(logs));
+    }
+
+    function renderHistory() {
+      const logs = getLogs();
+      const box = document.getElementById('historyList');
+      if (logs.length === 0) {
+        box.innerHTML = '<div style="color:var(--text-sub); padding:20px; text-align:center;">履歴はありません</div>';
+        return;
+      }
+      box.innerHTML = logs.map(l => `
+        <div class="history-card">
+          <div style="display:flex; justify-content:space-between; font-weight:700; margin-bottom:4px;">
+            <span>${l.type}</span>
+            <span style="color:var(--accent-jog);">${l.timeStr !== '-' ? l.timeStr : ''}</span>
+          </div>
+          <div style="color:var(--text);">${l.distStr || ''}</div>
+          <div style="color:var(--text-sub); font-size:0.75rem; margin-top:4px;">${l.date}</div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('clearHistoryBtn').addEventListener('click', () => {
+      if (confirm('すべての履歴を削除しますか？')) {
+        localStorage.removeItem('gym_tracker_logs');
+        renderHistory();
+      }
+    });
+
+    // ==========================================
+    // PiP（ピクチャー・イン・ピクチャー）小窓生成
+    // ==========================================
+    const pipCanvas = document.getElementById('pipCanvas');
+    const ctx = pipCanvas.getContext('2d');
+    const pipVideo = document.getElementById('pipVideo');
+
+    function drawPipCanvas(mode, timeText, subText) {
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, pipCanvas.width, pipCanvas.height);
+
+      ctx.fillStyle = mode === 'JOG' ? '#00d26a' : '#ff7b00';
+      ctx.font = 'bold 20px sans-serif';
+      ctx.fillText(`● ${mode}`, 20, 35);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 50px monospace';
+      ctx.fillText(timeText, 20, 105);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '18px sans-serif';
+      ctx.fillText(subText, 20, 155);
+    }
+
+    async function togglePip() {
+      try {
+        if (document.pictureInPictureElement) {
+          await document.exitPictureInPicture();
+          return;
+        }
+        if (!pipVideo.srcObject) {
+          drawPipCanvas('RUN', '00:00.0', 'タップして開始');
+          const stream = pipCanvas.captureStream(25);
+          pipVideo.srcObject = stream;
+          await pipVideo.play();
+        }
+        await pipVideo.requestPictureInPicture();
+      } catch (err) {
+        alert('PiPの起動に失敗しました（ブラウザが非対応か制限されています）: ' + err.message);
+      }
+    }
+
+    document.getElementById('pipJogBtn').addEventListener('click', togglePip);
+    document.getElementById('pipDashBtn').addEventListener('click', togglePip);
+  </script>
+</body>
+</html>
