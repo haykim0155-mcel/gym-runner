@@ -188,23 +188,23 @@
       font-variant-numeric: tabular-nums;
     }
 
-    /* 巨大タップボタン（大きさを倍へ拡張：min-height 210px） */
+    /* 巨大タップボタン（今の2/3サイズに調整：140px） */
     .huge-tap-btn {
       width: 100%;
-      min-height: 210px;
-      flex: 2; /* 画面の縦領域を優先的に広く取る */
+      min-height: 140px;
+      height: 140px;
       border-radius: 16px;
       border: none;
       color: #031c0e;
       font-weight: 900;
-      font-size: 2.1rem;
+      font-size: 1.8rem;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       flex-shrink: 0;
       touch-action: manipulation;
       background: linear-gradient(135deg, var(--accent-jog), var(--accent-jog-dark));
@@ -223,13 +223,11 @@
       opacity: 0.9;
     }
 
-    /* 下部：半分の大きさに凝縮した操作エリア + ラップリスト */
     .split-bottom-area {
       flex: 1;
       display: flex;
       gap: 6px;
-      min-height: 75px;
-      max-height: 120px;
+      min-height: 100px;
       overflow: hidden;
     }
 
