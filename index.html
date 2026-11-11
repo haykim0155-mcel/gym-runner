@@ -42,7 +42,7 @@
 
     header {
       background: #14181f;
-      padding: 8px 14px;
+      padding: 6px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -51,7 +51,7 @@
     }
 
     .app-title {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 800;
       letter-spacing: 0.5px;
     }
@@ -60,9 +60,9 @@
       background: var(--card);
       border: 1px solid var(--card-border);
       color: var(--text);
-      padding: 5px 10px;
+      padding: 4px 8px;
       border-radius: 6px;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
       cursor: pointer;
     }
@@ -76,11 +76,11 @@
 
     .tab-btn {
       flex: 1;
-      padding: 10px 4px;
+      padding: 8px 4px;
       background: none;
       border: none;
       color: var(--text-sub);
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 700;
       cursor: pointer;
       text-align: center;
@@ -98,17 +98,17 @@
     main {
       flex: 1;
       overflow: hidden;
-      padding: 10px 10px 0 10px;
+      padding: 6px 8px 0 8px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .tab-pane {
       display: none;
       flex-direction: column;
       height: 100%;
-      gap: 8px;
+      gap: 6px;
     }
     .tab-pane.active {
       display: flex;
@@ -118,58 +118,58 @@
       background: var(--card);
       border: 1px solid var(--card-border);
       border-radius: 8px;
-      padding: 6px 12px;
+      padding: 4px 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       flex-shrink: 0;
     }
     .config-input {
-      width: 65px;
+      width: 60px;
       background: #101317;
       border: 1px solid var(--card-border);
       color: #fff;
-      padding: 3px 6px;
+      padding: 2px 4px;
       border-radius: 4px;
       text-align: right;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 700;
       user-select: text;
       -webkit-user-select: text;
     }
 
-    /* メインタイマーパネル */
+    /* メインタイマーパネル（コンパクト化） */
     .display-panel {
       background: var(--card);
       border: 1px solid var(--card-border);
       border-radius: 10px;
-      padding: 8px 12px;
+      padding: 6px 10px;
       text-align: center;
       flex-shrink: 0;
     }
 
     .time-large {
-      font-size: 2.7rem;
+      font-size: 2.3rem;
       font-weight: 800;
       font-variant-numeric: tabular-nums;
       letter-spacing: -1px;
-      line-height: 1.05;
+      line-height: 1.0;
       color: #ffffff;
     }
 
     .dist-sub-row {
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       font-weight: 700;
       color: var(--accent-blue);
-      margin: 2px 0 4px 0;
+      margin: 1px 0 3px 0;
     }
 
     .metrics-row {
       display: flex;
       justify-content: space-around;
       border-top: 1px solid rgba(255,255,255,0.08);
-      padding-top: 6px;
+      padding-top: 4px;
       margin-top: 2px;
     }
 
@@ -179,31 +179,32 @@
       align-items: center;
     }
     .metric-label {
-      font-size: 0.68rem;
+      font-size: 0.62rem;
       color: var(--text-sub);
     }
     .metric-val {
-      font-size: 1.15rem;
+      font-size: 1rem;
       font-weight: 700;
       font-variant-numeric: tabular-nums;
     }
 
-    /* 巨大タップボタン */
+    /* 巨大タップボタン（大きさを倍へ拡張：min-height 210px） */
     .huge-tap-btn {
       width: 100%;
-      min-height: 105px;
-      border-radius: 14px;
+      min-height: 210px;
+      flex: 2; /* 画面の縦領域を優先的に広く取る */
+      border-radius: 16px;
       border: none;
       color: #031c0e;
       font-weight: 900;
-      font-size: 1.6rem;
+      font-size: 2.1rem;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.35);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 3px;
+      gap: 6px;
       flex-shrink: 0;
       touch-action: manipulation;
       background: linear-gradient(135deg, var(--accent-jog), var(--accent-jog-dark));
@@ -217,43 +218,43 @@
       color: #fff;
     }
     .tap-subtitle {
-      font-size: 0.8rem;
+      font-size: 0.95rem;
       font-weight: 600;
       opacity: 0.9;
     }
 
-    /* 下部：左側操作ボタン群 + 右側ラップリスト */
+    /* 下部：半分の大きさに凝縮した操作エリア + ラップリスト */
     .split-bottom-area {
       flex: 1;
       display: flex;
-      gap: 8px;
-      min-height: 110px;
+      gap: 6px;
+      min-height: 75px;
+      max-height: 120px;
       overflow: hidden;
     }
 
-    /* 左側操作列（スタート約2/3、終了・保存各1/6） */
+    /* 左側操作列 */
     .left-ctrl-col {
-      width: 95px;
+      width: 85px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
       flex-shrink: 0;
     }
 
     .btn-side-main {
-      flex: 4;
+      flex: 3;
       background: var(--accent-jog);
       color: #031c0e;
       border: none;
-      border-radius: 10px;
-      font-size: 1.05rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
       font-weight: 900;
       cursor: pointer;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      line-height: 1.2;
+      gap: 2px;
       touch-action: manipulation;
     }
     .btn-side-main.running {
@@ -268,14 +269,15 @@
     .btn-side-sub {
       flex: 2;
       border: none;
-      border-radius: 8px;
-      font-size: 0.8rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
       font-weight: 800;
       cursor: pointer;
       display: flex;
       justify-content: center;
       align-items: center;
       touch-action: manipulation;
+      padding: 0;
     }
     .btn-side-finish {
       background: #2b1f24;
@@ -288,7 +290,7 @@
       background: #1b283d;
       border: 1px solid #2563eb;
       color: #93c5fd;
-      opacity: 0.4;
+      opacity: 0.35;
       pointer-events: none;
     }
     .btn-side-save.ready {
@@ -298,24 +300,24 @@
       color: #fff;
     }
 
-    /* 右側ラップリスト */
+    /* 右側ラップリスト（コンパクト化） */
     .lap-list-container {
       flex: 1;
       background: var(--card);
       border: 1px solid var(--card-border);
-      border-radius: 10px;
+      border-radius: 8px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
 
     .lap-header {
-      padding: 5px 8px;
-      font-size: 0.68rem;
+      padding: 3px 6px;
+      font-size: 0.62rem;
       color: var(--text-sub);
       background: #13171e;
       display: grid;
-      grid-template-columns: 28px 1fr 50px 30px;
+      grid-template-columns: 24px 1fr 44px 24px;
       align-items: center;
       text-align: right;
       border-bottom: 1px solid var(--card-border);
@@ -328,15 +330,15 @@
     .lap-rows {
       flex: 1;
       overflow-y: auto;
-      padding: 2px 0;
+      padding: 1px 0;
     }
 
     .lap-row {
       display: grid;
-      grid-template-columns: 28px 1fr 50px 30px;
+      grid-template-columns: 24px 1fr 44px 24px;
       align-items: center;
-      padding: 5px 8px;
-      font-size: 0.78rem;
+      padding: 3px 6px;
+      font-size: 0.72rem;
       font-variant-numeric: tabular-nums;
       border-bottom: 1px solid rgba(255,255,255,0.03);
       text-align: right;
@@ -351,9 +353,9 @@
       border: 1px solid #333f50;
       color: var(--accent-blue);
       border-radius: 4px;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 700;
-      padding: 2px 0;
+      padding: 1px 0;
       text-align: center;
     }
 
@@ -362,48 +364,47 @@
       border: none;
       color: #ef4444;
       font-weight: 900;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       cursor: pointer;
-      padding: 2px;
+      padding: 0;
     }
 
     /* =========================
-       筋トレタブ専用レイアウト
+       筋トレタブ
        ========================= */
     .gym-scroll-container {
       flex: 1;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       padding-right: 2px;
     }
 
     .gym-card {
       background: var(--card);
       border: 1px solid var(--card-border);
-      border-radius: 10px;
-      padding: 10px;
+      border-radius: 8px;
+      padding: 8px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       position: relative;
     }
 
-    /* 1列目: マシン名(半分) + 部位(半分) */
     .gym-row-1 {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       align-items: center;
     }
     .gym-col-half {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
     }
     .gym-label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: var(--text-sub);
     }
     .gym-select, .gym-target-part {
@@ -411,8 +412,8 @@
       border: 1px solid var(--card-border);
       color: #fff;
       border-radius: 6px;
-      padding: 6px 8px;
-      font-size: 0.85rem;
+      padding: 5px 6px;
+      font-size: 0.8rem;
       width: 100%;
     }
     .gym-target-part {
@@ -420,27 +421,26 @@
       font-weight: 700;
       display: flex;
       align-items: center;
-      min-height: 33px;
+      min-height: 29px;
     }
 
-    /* 2列目: 重さ・回数・セット数（3分割） */
     .gym-row-2 {
       display: flex;
-      gap: 8px;
+      gap: 6px;
     }
     .gym-col-third {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
     }
     .gym-input-num {
       background: #111419;
       border: 1px solid var(--card-border);
       color: #fff;
       border-radius: 6px;
-      padding: 6px;
-      font-size: 0.9rem;
+      padding: 4px;
+      font-size: 0.85rem;
       font-weight: 700;
       text-align: center;
       width: 100%;
@@ -450,12 +450,12 @@
 
     .btn-remove-card {
       position: absolute;
-      top: 6px;
-      right: 8px;
+      top: 4px;
+      right: 6px;
       background: none;
       border: none;
       color: var(--text-sub);
-      font-size: 1.1rem;
+      font-size: 1rem;
       cursor: pointer;
     }
     .btn-remove-card:hover { color: var(--accent-danger); }
@@ -465,8 +465,8 @@
       border: 1px dashed var(--accent-blue);
       color: var(--accent-blue);
       border-radius: 8px;
-      padding: 10px;
-      font-size: 0.88rem;
+      padding: 8px;
+      font-size: 0.85rem;
       font-weight: 800;
       cursor: pointer;
       text-align: center;
@@ -477,8 +477,8 @@
       border: 1px solid var(--card-border);
       border-radius: 8px;
       color: #fff;
-      padding: 8px;
-      font-size: 0.85rem;
+      padding: 6px;
+      font-size: 0.8rem;
       width: 100%;
       resize: none;
       user-select: text;
@@ -489,9 +489,9 @@
       background: var(--accent-gym);
       color: #fff;
       border: none;
-      border-radius: 10px;
-      padding: 12px;
-      font-size: 1rem;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.95rem;
       font-weight: 800;
       cursor: pointer;
       flex-shrink: 0;
@@ -502,12 +502,12 @@
       background: var(--card);
       border: 1px solid var(--card-border);
       border-radius: 8px;
-      padding: 8px 10px;
-      font-size: 0.78rem;
+      padding: 6px 8px;
+      font-size: 0.75rem;
       margin-bottom: 6px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
     .history-card-header {
       display: flex;
@@ -519,7 +519,7 @@
       background: none;
       border: none;
       color: var(--text-sub);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       cursor: pointer;
       padding: 0 4px;
     }
@@ -527,11 +527,11 @@
     .history-details {
       background: #111419;
       border-radius: 4px;
-      padding: 6px;
-      font-size: 0.72rem;
-      max-height: 140px;
+      padding: 5px;
+      font-size: 0.7rem;
+      max-height: 120px;
       overflow-y: auto;
-      margin-top: 4px;
+      margin-top: 3px;
     }
 
     /* デフォルト値編集モーダル */
@@ -543,44 +543,44 @@
       justify-content: center;
       align-items: center;
       z-index: 100;
-      padding: 16px;
+      padding: 12px;
     }
     .modal-content {
       background: #181d24;
       border: 1px solid var(--card-border);
       border-radius: 12px;
       width: 100%;
-      max-width: 480px;
+      max-width: 460px;
       max-height: 80vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
     .modal-header {
-      padding: 12px;
+      padding: 10px;
       background: #14181f;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
     .modal-body {
-      padding: 10px;
+      padding: 8px;
       overflow-y: auto;
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
     .default-edit-row {
       background: #111419;
       border: 1px solid var(--card-border);
       border-radius: 6px;
-      padding: 8px;
+      padding: 6px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
   </style>
 </head>
@@ -628,11 +628,13 @@
         </div>
       </div>
 
+      <!-- 巨大タップボタン（2倍大） -->
       <button class="huge-tap-btn" id="jogTapBtn">
         <span>+1 周 カウント</span>
         <span class="tap-subtitle">タップで周回加算 & ラップ刻み</span>
       </button>
 
+      <!-- 下部半分の操作エリア -->
       <div class="split-bottom-area">
         <div class="left-ctrl-col">
           <button class="btn-side-main" id="jogStartPauseBtn">
@@ -684,11 +686,13 @@
         </div>
       </div>
 
+      <!-- 巨大タップボタン（2倍大） -->
       <button class="huge-tap-btn dash-btn" id="dashTapBtn">
         <span>タップして記録</span>
         <span class="tap-subtitle">通過ごとにタップ（距離は右側で指定可）</span>
       </button>
 
+      <!-- 下部半分の操作エリア -->
       <div class="split-bottom-area">
         <div class="left-ctrl-col">
           <button class="btn-side-main dash-theme" id="dashStartPauseBtn">
@@ -700,7 +704,7 @@
         </div>
 
         <div class="lap-list-container">
-          <div class="lap-header" style="grid-template-columns: 28px 1fr 60px 30px;">
+          <div class="lap-header" style="grid-template-columns: 24px 1fr 50px 24px;">
             <span>#</span>
             <span>区間タイム</span>
             <span>距離(m)</span>
@@ -711,22 +715,20 @@
       </div>
     </div>
 
-    <!-- 3. 筋トレタブ（2列＋追加式＋メモ5行＋デフォルト編集） -->
+    <!-- 3. 筋トレタブ -->
     <div class="tab-pane" id="gymTab">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-shrink:0;">
-        <span style="font-size:0.85rem; font-weight:700;">マシン・種目記録</span>
+        <span style="font-size:0.8rem; font-weight:700;">マシン・種目記録</span>
         <button class="btn-header" id="openDefaultEditModalBtn" style="color:var(--accent-gym);">⚙ デフォルト編集</button>
       </div>
 
       <div class="gym-scroll-container" id="gymScrollArea">
-        <div id="gymEntriesContainer" style="display:flex; flex-direction:column; gap:8px;">
-          <!-- 筋トレカードが動的に追加されます -->
-        </div>
+        <div id="gymEntriesContainer" style="display:flex; flex-direction:column; gap:6px;"></div>
 
         <button type="button" class="btn-add-exercise" id="btnAddExercise">＋ 種目を追加</button>
 
-        <div style="display:flex; flex-direction:column; gap:4px; margin-top:4px;">
-          <label style="font-size:0.75rem; color:var(--text-sub);">メモ（5行）</label>
+        <div style="display:flex; flex-direction:column; gap:3px; margin-top:2px;">
+          <label style="font-size:0.7rem; color:var(--text-sub);">メモ（5行）</label>
           <textarea id="gymTotalMemo" class="gym-memo-area" rows="5" placeholder="今日の体調、追い込み度、有酸素の詳細など..."></textarea>
         </div>
 
@@ -737,7 +739,7 @@
     <!-- 4. 履歴タブ -->
     <div class="tab-pane" id="historyTab">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <span style="font-size:0.8rem; color:var(--text-sub);">保存されたアクティビティ</span>
+        <span style="font-size:0.78rem; color:var(--text-sub);">保存されたアクティビティ</span>
         <button class="btn-header" id="clearHistoryBtn" style="color:var(--accent-danger);">全削除</button>
       </div>
       <div id="historyList" style="flex:1; overflow-y:auto;"></div>
@@ -751,10 +753,8 @@
         <span>マシンのデフォルト基準値 編集</span>
         <button class="history-del-btn" id="closeDefaultEditModalBtn" style="font-size:1.3rem;">×</button>
       </div>
-      <div class="modal-body" id="defaultEditList">
-        <!-- マシン基準値の編集入力欄 -->
-      </div>
-      <div style="padding:10px; background:#14181f; display:flex; gap:8px;">
+      <div class="modal-body" id="defaultEditList"></div>
+      <div style="padding:8px; background:#14181f; display:flex; gap:6px;">
         <button class="btn-header" id="resetDefaultsBtn" style="flex:1;">初期値に戻す</button>
         <button class="btn-header" id="saveDefaultsBtn" style="flex:1; background:var(--accent-gym); color:#fff;">変更を保存</button>
       </div>
@@ -763,7 +763,7 @@
 
   <script>
     // ==========================================
-    // マシン初期データ（画像より再現）
+    // マシン初期データ
     // ==========================================
     const INITIAL_MACHINE_MASTER = [
       { name: "チェスト・プレス", part: "大胸筋", weight: "27.5", reps: "10", sets: "3" },
@@ -845,7 +845,7 @@
     });
 
     // ==========================================
-    // 1. ジョグ周回ロジック
+    // 1. ジョグ周回ロジック（リセット対応）
     // ==========================================
     let jogTimer = null;
     let jogStartTime = 0;
@@ -853,6 +853,7 @@
     let jogIsRunning = false;
     let jogLastTapMs = 0;
     let jogLaps = [];
+    let jogIsFinished = false;
 
     const jogTimeDisplay = document.getElementById('jogTimeDisplay');
     const jogDistDisplay = document.getElementById('jogDistDisplay');
@@ -864,7 +865,6 @@
     const jogStartPauseBtn = document.getElementById('jogStartPauseBtn');
     const jogFinishBtn = document.getElementById('jogFinishBtn');
     const jogSaveBtn = document.getElementById('jogSaveBtn');
-    let jogIsFinished = false;
 
     function getTotalJogLapsCount() {
       return jogLaps.reduce((sum, item) => sum + item.lapCountMultiplier, 0);
@@ -892,6 +892,11 @@
     }
 
     jogStartPauseBtn.addEventListener('click', () => {
+      // リセット待ち状態から再開された場合はリセット状態を解除
+      jogIsFinished = false;
+      jogFinishBtn.innerText = '終了';
+      jogFinishBtn.style.color = '#fca5a5';
+
       if (!jogIsRunning) {
         jogIsRunning = true;
         jogStartTime = Date.now();
@@ -939,7 +944,7 @@
         const row = document.createElement('div');
         row.className = 'lap-row';
         row.innerHTML = `
-          <span style="color:var(--text-sub); font-size:0.7rem;">#${actualIdx + 1}</span>
+          <span style="color:var(--text-sub); font-size:0.65rem;">#${actualIdx + 1}</span>
           <span style="font-weight:700;">${formatTime(l.lapTime)}</span>
           <span>
             <select class="lap-select-laps" data-idx="${actualIdx}">
@@ -968,9 +973,7 @@
       });
     }
 
-    // 終了 / リセット ボタン
     jogFinishBtn.addEventListener('click', () => {
-      // 終了後の状態で押されたら「リセット」として動作
       if (jogIsFinished) {
         if (confirm('保存せずに計測データをリセットしますか？')) {
           jogElapsed = 0;
@@ -986,7 +989,6 @@
         return;
       }
 
-      // 走行中に「終了」を押した場合の処理
       if (jogIsRunning) {
         jogIsRunning = false;
         jogElapsed += Date.now() - jogStartTime;
@@ -998,13 +1000,12 @@
 
       jogIsFinished = true;
       jogFinishBtn.innerText = 'リセット';
-      jogFinishBtn.style.color = '#ef4444'; // 破棄できることを示す警告色
+      jogFinishBtn.style.color = '#ef4444';
       jogSaveBtn.classList.add('ready');
       updateJogDisplay();
       vibrate([40, 40]);
     });
 
-    // 保存ボタン
     jogSaveBtn.addEventListener('click', () => {
       const totalMs = jogElapsed;
       const totalLaps = getTotalJogLapsCount();
@@ -1030,7 +1031,6 @@
       saveLog(log);
       alert(`保存しました！\n日時: ${log.date}\n総距離: ${log.distStr}\n総タイム: ${log.timeStr}\n平均ラップ: ${log.avgLapStr}`);
 
-      // 初期化
       jogElapsed = 0;
       jogLastTapMs = 0;
       jogLaps = [];
@@ -1043,7 +1043,7 @@
     });
 
     // ==========================================
-    // 2. ダッシュ計測ロジック（文言「目標」削除 & ジョグ同一配置）
+    // 2. ダッシュ計測ロジック（リセット対応）
     // ==========================================
     let dashTimer = null;
     let dashStartTime = 0;
@@ -1051,6 +1051,7 @@
     let dashIsRunning = false;
     let dashLastTapMs = 0;
     let dashLaps = [];
+    let dashIsFinished = false;
 
     const dashTimeDisplay = document.getElementById('dashTimeDisplay');
     const dashLapCount = document.getElementById('dashLapCount');
@@ -1076,6 +1077,10 @@
     }
 
     dashStartPauseBtn.addEventListener('click', () => {
+      dashIsFinished = false;
+      dashFinishBtn.innerText = '終了';
+      dashFinishBtn.style.color = '#fca5a5';
+
       if (!dashIsRunning) {
         dashIsRunning = true;
         dashStartTime = Date.now();
@@ -1125,12 +1130,12 @@
         const actualIdx = dashLaps.length - 1 - revIdx;
         const row = document.createElement('div');
         row.className = 'lap-row';
-        row.style.gridTemplateColumns = '28px 1fr 60px 30px';
+        row.style.gridTemplateColumns = '24px 1fr 50px 24px';
         row.innerHTML = `
-          <span style="color:var(--text-sub); font-size:0.7rem;">#${actualIdx + 1}</span>
+          <span style="color:var(--text-sub); font-size:0.65rem;">#${actualIdx + 1}</span>
           <span style="font-weight:700;">${formatTime(l.lapTime, true)}</span>
           <span>
-            <input type="number" class="config-input" style="width:50px; font-size:0.75rem;" value="${l.distM}" data-idx="${actualIdx}">
+            <input type="number" class="config-input" style="width:46px; font-size:0.7rem; padding:1px;" value="${l.distM}" data-idx="${actualIdx}">
           </span>
           <span><button class="btn-lap-del" data-idx="${actualIdx}">×</button></span>
         `;
@@ -1150,6 +1155,23 @@
     }
 
     dashFinishBtn.addEventListener('click', () => {
+      if (dashIsFinished) {
+        if (confirm('保存せずにダッシュデータをリセットしますか？')) {
+          dashElapsed = 0;
+          dashLastTapMs = 0;
+          dashLaps = [];
+          dashLapCount.innerText = '0';
+          dashLastLap.innerText = '--.--';
+          dashIsFinished = false;
+          dashFinishBtn.innerText = '終了';
+          dashFinishBtn.style.color = '#fca5a5';
+          dashSaveBtn.classList.remove('ready');
+          renderDashLaps();
+          updateDashDisplay();
+        }
+        return;
+      }
+
       if (dashIsRunning) {
         dashIsRunning = false;
         dashElapsed += Date.now() - dashStartTime;
@@ -1158,8 +1180,12 @@
         document.getElementById('dashMainBtnIcon').innerText = '▶';
         document.getElementById('dashMainBtnText').innerText = 'スタート';
       }
-      updateDashDisplay();
+
+      dashIsFinished = true;
+      dashFinishBtn.innerText = 'リセット';
+      dashFinishBtn.style.color = '#ef4444';
       dashSaveBtn.classList.add('ready');
+      updateDashDisplay();
       vibrate([40, 40]);
     });
 
@@ -1189,13 +1215,16 @@
       dashLaps = [];
       dashLapCount.innerText = '0';
       dashLastLap.innerText = '--.--';
+      dashIsFinished = false;
+      dashFinishBtn.innerText = '終了';
+      dashFinishBtn.style.color = '#fca5a5';
       dashSaveBtn.classList.remove('ready');
       renderDashLaps();
       updateDashDisplay();
     });
 
     // ==========================================
-    // 3. 筋トレロジック（2列・追加式・メモ5行）
+    // 3. 筋トレロジック
     // ==========================================
     const gymEntriesContainer = document.getElementById('gymEntriesContainer');
     const btnAddExercise = document.getElementById('btnAddExercise');
@@ -1216,7 +1245,6 @@
 
       card.innerHTML = `
         <button type="button" class="btn-remove-card" title="削除">×</button>
-        <!-- 1列目: マシン名(半分) + 主動部位(半分) -->
         <div class="gym-row-1">
           <div class="gym-col-half">
             <span class="gym-label">マシン名</span>
@@ -1230,7 +1258,6 @@
           </div>
         </div>
 
-        <!-- 2列目: 重さ・回数・セット数（3分割） -->
         <div class="gym-row-2">
           <div class="gym-col-third">
             <span class="gym-label">重さ (kg)</span>
@@ -1247,7 +1274,6 @@
         </div>
       `;
 
-      // マシン選択変更時に部位と数値を自動反映
       const selectEl = card.querySelector('.gym-machine-select');
       const partEl = card.querySelector('.gym-target-part');
       const weightInput = card.querySelector('.gym-weight-input');
@@ -1265,7 +1291,6 @@
         }
       });
 
-      // カード削除
       card.querySelector('.btn-remove-card').addEventListener('click', () => {
         if (gymEntriesContainer.children.length > 1) {
           card.remove();
@@ -1277,12 +1302,10 @@
       return card;
     }
 
-    // 初期カードを1枚追加
     gymEntriesContainer.appendChild(createGymCard());
 
     btnAddExercise.addEventListener('click', () => {
       gymEntriesContainer.appendChild(createGymCard());
-      // スクロールを一番下へ
       document.getElementById('gymScrollArea').scrollTop = document.getElementById('gymScrollArea').scrollHeight;
     });
 
@@ -1319,7 +1342,6 @@
       saveLog(log);
       alert('本日の筋トレログを保存しました！');
 
-      // リセット
       gymEntriesContainer.innerHTML = '';
       gymEntriesContainer.appendChild(createGymCard());
       document.getElementById('gymTotalMemo').value = '';
@@ -1339,21 +1361,21 @@
       const master = getMachineMaster();
       defaultEditList.innerHTML = master.map((m, idx) => `
         <div class="default-edit-row" data-idx="${idx}">
-          <div style="display:flex; justify-content:space-between; font-weight:700; font-size:0.8rem;">
+          <div style="display:flex; justify-content:space-between; font-weight:700; font-size:0.78rem;">
             <span>${m.name}</span>
             <span style="color:var(--accent-blue);">${m.part}</span>
           </div>
           <div style="display:flex; gap:6px;">
             <div style="flex:1;">
-              <span style="font-size:0.65rem; color:var(--text-sub);">重さ</span>
+              <span style="font-size:0.62rem; color:var(--text-sub);">重さ</span>
               <input type="text" class="config-input def-weight" style="width:100%; text-align:center;" value="${m.weight}">
             </div>
             <div style="flex:1;">
-              <span style="font-size:0.65rem; color:var(--text-sub);">回数</span>
+              <span style="font-size:0.62rem; color:var(--text-sub);">回数</span>
               <input type="text" class="config-input def-reps" style="width:100%; text-align:center;" value="${m.reps}">
             </div>
             <div style="flex:1;">
-              <span style="font-size:0.65rem; color:var(--text-sub);">セット</span>
+              <span style="font-size:0.62rem; color:var(--text-sub);">セット</span>
               <input type="text" class="config-input def-sets" style="width:100%; text-align:center;" value="${m.sets}">
             </div>
           </div>
@@ -1446,7 +1468,7 @@
               </div>
             </div>
             <div style="color:var(--text); font-weight:600;">${l.distStr || ''}</div>
-            <div style="color:var(--text-sub); font-size:0.7rem;">
+            <div style="color:var(--text-sub); font-size:0.68rem;">
               ${l.date} ${l.avgLapStr ? '| 平均: ' + l.avgLapStr : ''} ${l.memo ? '| ' + l.memo : ''}
             </div>
             ${detailsHtml}
