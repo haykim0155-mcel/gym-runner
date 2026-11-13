@@ -525,6 +525,7 @@
     }
     .history-del-btn:hover { color: var(--accent-danger); }
     .history-details {
+      display: none; /* デフォルトでは非表示 */
       background: #111419;
       border-radius: 4px;
       padding: 5px;
@@ -532,6 +533,20 @@
       max-height: 120px;
       overflow-y: auto;
       margin-top: 3px;
+    }
+    .history-details.open {
+      display: block; /* ▼を押した時だけ展開表示 */
+    }
+    .btn-toggle-detail {
+      background: #1e2530;
+      border: 1px solid #333f50;
+      color: var(--accent-blue);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 6px;
     }
 
     /* デフォルト値編集モーダル */
@@ -1435,6 +1450,14 @@
       }
     };
 
+    // 詳細の開閉切り替え関数
+    window.toggleHistoryDetail = function(id, btnEl) {
+      const detailEl = document.getElementById(`detail-${id}`);
+      if (!detailEl) return;
+      const isOpen = detailEl.classList.toggle('open');
+      btnEl.innerText = isOpen ? '▲ 閉じる' : '▼ 詳細';
+    };
+
     function renderHistory() {
       const logs = getLogs();
       const box = document.getElementById('historyList');
@@ -1444,10 +1467,12 @@
       }
 
       box.innerHTML = logs.map(l => {
+        const hasDetails = l.details && l.details.length > 0;
         let detailsHtml = '';
-        if (l.details && l.details.length > 0) {
+
+        if (hasDetails) {
           detailsHtml = `
-            <div class="history-details">
+            <div class="history-details" id="detail-${l.id}">
               ${l.details.map(d => `
                 <div style="display:flex; justify-content:space-between; margin-bottom:2px;">
                   <span>#${d.num} ${d.dist ? `(${d.dist})` : (d.laps ? `(${d.laps}周)` : '')}</span>
@@ -1462,8 +1487,9 @@
           <div class="history-card">
             <div class="history-card-header">
               <span style="color:#fff;">${l.type}</span>
-              <div>
+              <div style="display:flex; align-items:center;">
                 <span style="color:var(--accent-jog); margin-right:8px;">${l.timeStr !== '-' ? l.timeStr : ''}</span>
+                ${hasDetails ? `<button class="btn-toggle-detail" onclick="toggleHistoryDetail(${l.id}, this)">▼ 詳細</button>` : ''}
                 <button class="history-del-btn" onclick="deleteHistoryItem(${l.id})">🗑</button>
               </div>
             </div>
