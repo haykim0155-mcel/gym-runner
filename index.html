@@ -139,6 +139,22 @@
       -webkit-user-select: text;
     }
 
+    .btn-measure-open {
+      background: #1a273b;
+      border: 1px solid var(--accent-blue);
+      color: var(--accent-blue);
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-left: 6px;
+    }
+    .btn-measure-open:active {
+      background: var(--accent-blue);
+      color: #031c0e;
+    }
+
     /* メインタイマーパネル（コンパクト化） */
     .display-panel {
       background: var(--card);
@@ -194,7 +210,7 @@
       height: 210px;
       min-height: 210px;
       max-height: 210px;
-      flex: none; /* ← 勝手に肥大化する原因だった「flex: 2」を完全に無効化 */
+      flex: none;
       border-radius: 16px;
       border: none;
       color: #031c0e;
@@ -525,7 +541,7 @@
     }
     .history-del-btn:hover { color: var(--accent-danger); }
     .history-details {
-      display: none; /* デフォルトでは非表示 */
+      display: none;
       background: #111419;
       border-radius: 4px;
       padding: 5px;
@@ -535,7 +551,7 @@
       margin-top: 3px;
     }
     .history-details.open {
-      display: block; /* ▼を押した時だけ展開表示 */
+      display: block;
     }
     .btn-toggle-detail {
       background: #1e2530;
@@ -549,11 +565,11 @@
       margin-right: 6px;
     }
 
-    /* デフォルト値編集モーダル */
+    /* モーダル共通 */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.75);
       display: none;
       justify-content: center;
       align-items: center;
@@ -566,27 +582,28 @@
       border-radius: 12px;
       width: 100%;
       max-width: 460px;
-      max-height: 80vh;
+      max-height: 85vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
     .modal-header {
-      padding: 10px;
+      padding: 10px 12px;
       background: #14181f;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-weight: 700;
       font-size: 0.9rem;
+      border-bottom: 1px solid var(--card-border);
     }
     .modal-body {
-      padding: 8px;
+      padding: 10px;
       overflow-y: auto;
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
     .default-edit-row {
       background: #111419;
@@ -596,6 +613,71 @@
       display: flex;
       flex-direction: column;
       gap: 3px;
+    }
+
+    /* コース計測モーダル専用スタイル */
+    .measure-tabs {
+      display: flex;
+      background: #111419;
+      border-radius: 8px;
+      padding: 3px;
+      gap: 4px;
+    }
+    .measure-tab-btn {
+      flex: 1;
+      padding: 6px;
+      border: none;
+      border-radius: 6px;
+      background: none;
+      color: var(--text-sub);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .measure-tab-btn.active {
+      background: var(--accent-blue);
+      color: #031c0e;
+    }
+    .measure-section {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .measure-section.active {
+      display: flex;
+    }
+    .measure-card {
+      background: #111419;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .measure-result-box {
+      background: #0d1926;
+      border: 1px solid #1e3a5f;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+    .measure-big-num {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent-jog);
+      font-variant-numeric: tabular-nums;
+    }
+    .btn-apply-dist {
+      background: var(--accent-jog);
+      color: #031c0e;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+      width: 100%;
     }
   </style>
 </head>
@@ -618,9 +700,10 @@
     <div class="tab-pane active" id="jogTab">
       <div class="config-box">
         <span>体育館 1周の距離:</span>
-        <div>
+        <div style="display:flex; align-items:center;">
           <input type="number" id="jogLapDistance" class="config-input" value="275" step="5">
-          <span> m</span>
+          <span style="margin-left:3px;">m</span>
+          <button type="button" class="btn-measure-open" id="openMeasureModalBtn">📏 計測</button>
         </div>
       </div>
 
@@ -643,13 +726,13 @@
         </div>
       </div>
 
-      <!-- 巨大タップボタン（2倍大） -->
+      <!-- 巨大タップボタン（210px固定） -->
       <button class="huge-tap-btn" id="jogTapBtn">
         <span>+1 周 カウント</span>
         <span class="tap-subtitle">タップで周回加算 & ラップ刻み</span>
       </button>
 
-      <!-- 下部半分の操作エリア -->
+      <!-- 下部操作エリア -->
       <div class="split-bottom-area">
         <div class="left-ctrl-col">
           <button class="btn-side-main" id="jogStartPauseBtn">
@@ -701,13 +784,13 @@
         </div>
       </div>
 
-      <!-- 巨大タップボタン（2倍大） -->
+      <!-- 巨大タップボタン（210px固定） -->
       <button class="huge-tap-btn dash-btn" id="dashTapBtn">
         <span>タップして記録</span>
         <span class="tap-subtitle">通過ごとにタップ（距離は右側で指定可）</span>
       </button>
 
-      <!-- 下部半分の操作エリア -->
+      <!-- 下部操作エリア -->
       <div class="split-bottom-area">
         <div class="left-ctrl-col">
           <button class="btn-side-main dash-theme" id="dashStartPauseBtn">
@@ -760,6 +843,94 @@
       <div id="historyList" style="flex:1; overflow-y:auto;"></div>
     </div>
   </main>
+
+  <!-- コース距離計測モーダル（① 歩数センサー実測 ＆ ③ ペース逆算） -->
+  <div class="modal-overlay" id="measureCourseModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>📏 コース1周の距離を測る</span>
+        <button class="history-del-btn" id="closeMeasureModalBtn" style="font-size:1.3rem;">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="measure-tabs">
+          <button type="button" class="measure-tab-btn active" data-msect="stepMeasureSect">① 歩いて実測 (歩数)</button>
+          <button type="button" class="measure-tab-btn" data-msect="paceMeasureSect">③ ペースから逆算</button>
+        </div>
+
+        <!-- ① 加速度センサー歩数計測 -->
+        <div class="measure-section active" id="stepMeasureSect">
+          <div class="measure-card">
+            <div style="font-size:0.75rem; font-weight:700; color:var(--accent-blue);">STEP 1: 歩幅の設定</div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.75rem;">
+              <span>身長から自動計算 (×0.45):</span>
+              <div>
+                <input type="number" id="userHeightInput" class="config-input" value="170" style="width:55px;"> cm
+                <button type="button" class="btn-header" id="calcStrideBtn" style="margin-left:4px;">反映</button>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.78rem; margin-top:4px; padding-top:4px; border-top:1px solid rgba(255,255,255,0.06);">
+              <span style="font-weight:700;">あなたの歩行歩幅:</span>
+              <div>
+                <input type="number" id="userStrideInput" class="config-input" value="76" style="width:55px;"> cm
+              </div>
+            </div>
+          </div>
+
+          <div class="measure-card">
+            <div style="font-size:0.75rem; font-weight:700; color:var(--accent-blue);">STEP 2: 1周歩いてカウント</div>
+            <p style="font-size:0.7rem; color:var(--text-sub); line-height:1.4;">
+              スマホをポケットに入れるか手に持ち、普段通りの歩幅でコースを1周歩いてください。
+            </p>
+            <div class="measure-result-box">
+              <div style="font-size:0.72rem; color:var(--text-sub);">検出歩数: <span id="stepCountDisplay" style="color:#fff; font-weight:800; font-size:1rem;">0</span> 歩</div>
+              <div class="measure-big-num"><span id="stepCalcDistDisplay">0</span> <small style="font-size:1rem;">m</small></div>
+              <div id="sensorStatusText" style="font-size:0.68rem; color:var(--text-sub); margin-top:2px;">待機中</div>
+            </div>
+
+            <div style="display:flex; gap:6px;">
+              <button type="button" class="btn-side-main" id="toggleStepSensorBtn" style="height:42px; flex:2;">▶ 歩行計測スタート</button>
+              <button type="button" class="btn-side-sub btn-side-finish" id="resetStepSensorBtn" style="height:42px; flex:1;">リセット</button>
+            </div>
+          </div>
+
+          <button type="button" class="btn-apply-dist" id="applyStepDistBtn">この距離をジョグ設定に反映</button>
+        </div>
+
+        <!-- ③ 基準ペースからの逆算 -->
+        <div class="measure-section" id="paceMeasureSect">
+          <div class="measure-card">
+            <div style="font-size:0.75rem; font-weight:700; color:var(--accent-blue);">基準ペースと1周のタイムから逆算</div>
+            <p style="font-size:0.7rem; color:var(--text-sub); line-height:1.4;">
+              普段のジョグペースと、実際に1周走った時間からコース距離を逆算します。
+            </p>
+
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.78rem; margin-top:4px;">
+              <span>普段のジョグペース (1km):</span>
+              <div>
+                <input type="number" id="basePaceMinInput" class="config-input" value="5" style="width:45px;"> 分
+                <input type="number" id="basePaceSecInput" class="config-input" value="30" style="width:45px;"> 秒
+              </div>
+            </div>
+
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.78rem; margin-top:4px;">
+              <span>1周にかかった時間:</span>
+              <div>
+                <input type="number" id="oneLapSecInput" class="config-input" value="90" style="width:60px;"> 秒
+                <button type="button" class="btn-header" id="importLastLapBtn" style="margin-left:4px;" title="直前のラップ秒数を取得">直前ラップ引用</button>
+              </div>
+            </div>
+
+            <div class="measure-result-box" style="margin-top:6px;">
+              <div style="font-size:0.72rem; color:var(--text-sub);">推定コース1周距離</div>
+              <div class="measure-big-num"><span id="paceCalcDistDisplay">273</span> <small style="font-size:1rem;">m</small></div>
+            </div>
+          </div>
+
+          <button type="button" class="btn-apply-dist" id="applyPaceDistBtn">この距離をジョグ設定に反映</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- デフォルト編集モーダル -->
   <div class="modal-overlay" id="defaultEditModal">
@@ -906,8 +1077,9 @@
       }
     }
 
+    jogLapDistanceInput.addEventListener('input', updateJogDisplay);
+
     jogStartPauseBtn.addEventListener('click', () => {
-      // リセット待ち状態から再開された場合はリセット状態を解除
       jogIsFinished = false;
       jogFinishBtn.innerText = '終了';
       jogFinishBtn.style.color = '#fca5a5';
@@ -1055,6 +1227,216 @@
       jogSaveBtn.classList.remove('ready');
       renderJogLaps();
       updateJogDisplay();
+    });
+
+    // ==========================================
+    // コース距離計測モーダル（① 歩数センサー & ③ ペース逆算）
+    // ==========================================
+    const measureCourseModal = document.getElementById('measureCourseModal');
+    const openMeasureModalBtn = document.getElementById('openMeasureModalBtn');
+    const closeMeasureModalBtn = document.getElementById('closeMeasureModalBtn');
+
+    // タブ切り替え
+    document.querySelectorAll('.measure-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.measure-tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.measure-section').forEach(s => s.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.msect).classList.add('active');
+      });
+    });
+
+    openMeasureModalBtn.addEventListener('click', () => {
+      calcPaceReverseDistance();
+      measureCourseModal.style.display = 'flex';
+    });
+
+    closeMeasureModalBtn.addEventListener('click', () => {
+      stopStepSensor();
+      measureCourseModal.style.display = 'none';
+    });
+
+    // --- ① 歩数・歩幅計測ロジック ---
+    const userHeightInput = document.getElementById('userHeightInput');
+    const userStrideInput = document.getElementById('userStrideInput');
+    const calcStrideBtn = document.getElementById('calcStrideBtn');
+    const stepCountDisplay = document.getElementById('stepCountDisplay');
+    const stepCalcDistDisplay = document.getElementById('stepCalcDistDisplay');
+    const sensorStatusText = document.getElementById('sensorStatusText');
+    const toggleStepSensorBtn = document.getElementById('toggleStepSensorBtn');
+    const resetStepSensorBtn = document.getElementById('resetStepSensorBtn');
+    const applyStepDistBtn = document.getElementById('applyStepDistBtn');
+
+    let isStepMeasuring = false;
+    let detectedSteps = 0;
+    let lastStepTimestamp = 0;
+    let lastAccelMag = 9.8;
+    let stepUpwardFlag = false;
+
+    // 歩幅の保存・復元
+    const savedStride = localStorage.getItem('gym_user_stride_cm');
+    if (savedStride) userStrideInput.value = savedStride;
+
+    calcStrideBtn.addEventListener('click', () => {
+      const h = parseFloat(userHeightInput.value) || 170;
+      const estimatedStride = Math.round(h * 0.45);
+      userStrideInput.value = estimatedStride;
+      localStorage.setItem('gym_user_stride_cm', estimatedStride);
+      updateStepCalcDisplay();
+    });
+
+    userStrideInput.addEventListener('input', () => {
+      localStorage.setItem('gym_user_stride_cm', userStrideInput.value);
+      updateStepCalcDisplay();
+    });
+
+    function updateStepCalcDisplay() {
+      stepCountDisplay.innerText = detectedSteps;
+      const strideCm = parseFloat(userStrideInput.value) || 75;
+      const distM = Math.round((detectedSteps * strideCm) / 100);
+      stepCalcDistDisplay.innerText = distM;
+    }
+
+    function handleDeviceMotion(event) {
+      if (!isStepMeasuring) return;
+      const acc = event.accelerationIncludingGravity || event.acceleration;
+      if (!acc) return;
+
+      const x = acc.x || 0;
+      const y = acc.y || 0;
+      const z = acc.z || 0;
+      const mag = Math.sqrt(x * x + y * y + z * z);
+
+      // 重力加速度(約9.8)からの上下振動ピーク検出（閾値設定とデバウンス）
+      const now = Date.now();
+      const thresholdHigh = 11.2; // 踏み込み時のピーク閾値
+      const thresholdLow = 9.6;
+
+      if (mag > thresholdHigh && !stepUpwardFlag) {
+        if (now - lastStepTimestamp > 320) { // 最速ピッチ制限（0.32秒以内の二重検知防止）
+          detectedSteps++;
+          lastStepTimestamp = now;
+          updateStepCalcDisplay();
+        }
+        stepUpwardFlag = true;
+      } else if (mag < thresholdLow) {
+        stepUpwardFlag = false;
+      }
+      lastAccelMag = mag;
+    }
+
+    async function startStepSensor() {
+      // iOS 13+ Safari向けのモーションセンサー許可リクエスト
+      if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+        try {
+          const permState = await DeviceMotionEvent.requestPermission();
+          if (permState !== 'granted') {
+            alert('モーションセンサーの許可が拒否されました。ブラウザの設定から動作と方向へのアクセスを許可してください。');
+            return;
+          }
+        } catch (err) {
+          alert('センサー許可リクエストエラー: ' + err.message);
+          return;
+        }
+      }
+
+      if (!('ondevicemotion' in window)) {
+        sensorStatusText.innerText = '※この端末/ブラウザは加速度センサー非対応です';
+        sensorStatusText.style.color = '#ef4444';
+        return;
+      }
+
+      isStepMeasuring = true;
+      window.addEventListener('devicemotion', handleDeviceMotion);
+      toggleStepSensorBtn.classList.add('running');
+      toggleStepSensorBtn.innerText = '⏸ 計測ストップ';
+      sensorStatusText.innerText = '● 歩行振動を検知中... 1周歩いてください';
+      sensorStatusText.style.color = '#00d26a';
+      vibrate();
+    }
+
+    function stopStepSensor() {
+      isStepMeasuring = false;
+      window.removeEventListener('devicemotion', handleDeviceMotion);
+      toggleStepSensorBtn.classList.remove('running');
+      toggleStepSensorBtn.innerText = '▶ 歩行計測スタート';
+      sensorStatusText.innerText = '停止中';
+      sensorStatusText.style.color = 'var(--text-sub)';
+    }
+
+    toggleStepSensorBtn.addEventListener('click', () => {
+      if (isStepMeasuring) {
+        stopStepSensor();
+      } else {
+        startStepSensor();
+      }
+    });
+
+    resetStepSensorBtn.addEventListener('click', () => {
+      stopStepSensor();
+      detectedSteps = 0;
+      updateStepCalcDisplay();
+      sensorStatusText.innerText = 'リセットしました';
+    });
+
+    applyStepDistBtn.addEventListener('click', () => {
+      stopStepSensor();
+      const dist = parseInt(stepCalcDistDisplay.innerText, 10);
+      if (dist <= 0) {
+        alert('距離が0mです。まず歩いて計測してください。');
+        return;
+      }
+      jogLapDistanceInput.value = dist;
+      updateJogDisplay();
+      measureCourseModal.style.display = 'none';
+      alert(`1周の距離を「${dist}m」に反映しました！`);
+    });
+
+    // --- ③ 基準ペース逆算ロジック ---
+    const basePaceMinInput = document.getElementById('basePaceMinInput');
+    const basePaceSecInput = document.getElementById('basePaceSecInput');
+    const oneLapSecInput = document.getElementById('oneLapSecInput');
+    const paceCalcDistDisplay = document.getElementById('paceCalcDistDisplay');
+    const importLastLapBtn = document.getElementById('importLastLapBtn');
+    const applyPaceDistBtn = document.getElementById('applyPaceDistBtn');
+
+    function calcPaceReverseDistance() {
+      const pMin = parseFloat(basePaceMinInput.value) || 0;
+      const pSec = parseFloat(basePaceSecInput.value) || 0;
+      const secPerKm = pMin * 60 + pSec;
+      const lapSec = parseFloat(oneLapSecInput.value) || 0;
+
+      if (secPerKm > 0 && lapSec > 0) {
+        // 1000m : secPerKm = Xm : lapSec  =>  X = 1000 * lapSec / secPerKm
+        const estimatedM = Math.round((1000 * lapSec) / secPerKm);
+        paceCalcDistDisplay.innerText = estimatedM;
+      } else {
+        paceCalcDistDisplay.innerText = 0;
+      }
+    }
+
+    basePaceMinInput.addEventListener('input', calcPaceReverseDistance);
+    basePaceSecInput.addEventListener('input', calcPaceReverseDistance);
+    oneLapSecInput.addEventListener('input', calcPaceReverseDistance);
+
+    importLastLapBtn.addEventListener('click', () => {
+      if (jogLaps.length > 0) {
+        const lastLap = jogLaps[jogLaps.length - 1];
+        const sec = Math.round(lastLap.lapTime / 1000);
+        oneLapSecInput.value = sec;
+        calcPaceReverseDistance();
+      } else {
+        alert('まだジョグのラップ記録がありません。');
+      }
+    });
+
+    applyPaceDistBtn.addEventListener('click', () => {
+      const dist = parseInt(paceCalcDistDisplay.innerText, 10);
+      if (dist <= 0) return;
+      jogLapDistanceInput.value = dist;
+      updateJogDisplay();
+      measureCourseModal.style.display = 'none';
+      alert(`1周の距離を「${dist}m」に反映しました！`);
     });
 
     // ==========================================
@@ -1450,7 +1832,6 @@
       }
     };
 
-    // 詳細の開閉切り替え関数
     window.toggleHistoryDetail = function(id, btnEl) {
       const detailEl = document.getElementById(`detail-${id}`);
       if (!detailEl) return;
