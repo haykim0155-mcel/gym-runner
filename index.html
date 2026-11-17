@@ -51,7 +51,7 @@
     }
 
     .app-title {
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 800;
       letter-spacing: 0.5px;
     }
@@ -60,13 +60,14 @@
       background: var(--card);
       border: 1px solid var(--card-border);
       color: var(--text);
-      padding: 4px 8px;
+      padding: 6px 10px;
       border-radius: 6px;
-      font-size: 0.72rem;
-      font-weight: 600;
+      font-size: 0.85rem;
+      font-weight: 700;
       cursor: pointer;
     }
 
+    /* タブナビゲーション（1.5倍サイズへ拡大） */
     nav {
       display: flex;
       background: #12161c;
@@ -76,21 +77,21 @@
 
     .tab-btn {
       flex: 1;
-      padding: 8px 4px;
+      padding: 13px 4px;
       background: none;
       border: none;
       color: var(--text-sub);
-      font-size: 0.8rem;
-      font-weight: 700;
+      font-size: 1.15rem;
+      font-weight: 800;
       cursor: pointer;
       text-align: center;
-      border-bottom: 3px solid transparent;
+      border-bottom: 4px solid transparent;
     }
 
     .tab-btn.active {
       color: #fff;
       border-bottom-color: var(--accent-jog);
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255, 255, 255, 0.04);
     }
     .tab-btn.dash-tab.active { border-bottom-color: var(--accent-dash); }
     .tab-btn.gym-tab.active { border-bottom-color: var(--accent-gym); }
@@ -114,27 +115,37 @@
       display: flex;
     }
 
+    /* 距離設定・計測バー（横長に大きく） */
     .config-box {
       background: var(--card);
       border: 1px solid var(--card-border);
       border-radius: 8px;
-      padding: 4px 10px;
+      padding: 6px 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 700;
       flex-shrink: 0;
+      gap: 6px;
+    }
+    .config-controls-right {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      justify-content: flex-end;
+      gap: 6px;
     }
     .config-input {
-      width: 60px;
+      width: 90px;
       background: #101317;
       border: 1px solid var(--card-border);
       color: #fff;
-      padding: 2px 4px;
-      border-radius: 4px;
+      padding: 6px 8px;
+      border-radius: 6px;
       text-align: right;
-      font-size: 0.85rem;
-      font-weight: 700;
+      font-size: 1.15rem;
+      font-weight: 800;
       user-select: text;
       -webkit-user-select: text;
     }
@@ -143,30 +154,30 @@
       background: #1a273b;
       border: 1px solid var(--accent-blue);
       color: var(--accent-blue);
-      padding: 3px 8px;
-      border-radius: 5px;
-      font-size: 0.72rem;
-      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 800;
       cursor: pointer;
-      margin-left: 6px;
+      white-space: nowrap;
     }
     .btn-measure-open:active {
       background: var(--accent-blue);
       color: #031c0e;
     }
 
-    /* メインタイマーパネル（コンパクト化） */
+    /* メインタイマーパネル（中段メトリクス文字を倍サイズに拡大） */
     .display-panel {
       background: var(--card);
       border: 1px solid var(--card-border);
       border-radius: 10px;
-      padding: 6px 10px;
+      padding: 6px 8px;
       text-align: center;
       flex-shrink: 0;
     }
 
     .time-large {
-      font-size: 2.3rem;
+      font-size: 2.35rem;
       font-weight: 800;
       font-variant-numeric: tabular-nums;
       letter-spacing: -1px;
@@ -175,17 +186,17 @@
     }
 
     .dist-sub-row {
-      font-size: 0.85rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: var(--accent-blue);
-      margin: 1px 0 3px 0;
+      margin: 2px 0 4px 0;
     }
 
     .metrics-row {
       display: flex;
       justify-content: space-around;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding-top: 4px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 6px;
       margin-top: 2px;
     }
 
@@ -195,21 +206,23 @@
       align-items: center;
     }
     .metric-label {
-      font-size: 0.62rem;
+      font-size: 0.95rem;
+      font-weight: 700;
       color: var(--text-sub);
     }
     .metric-val {
-      font-size: 1rem;
-      font-weight: 700;
+      font-size: 1.75rem;
+      font-weight: 900;
       font-variant-numeric: tabular-nums;
+      line-height: 1.1;
     }
 
-    /* 巨大タップボタン（flex拡大を排除し、純粋に210pxで固定） */
+    /* 巨大タップボタン（200px固定 ＋ 3秒赤色ロック対応） */
     .huge-tap-btn {
       width: 100%;
-      height: 210px;
-      min-height: 210px;
-      max-height: 210px;
+      height: 195px;
+      min-height: 195px;
+      max-height: 195px;
       flex: none;
       border-radius: 16px;
       border: none;
@@ -226,32 +239,40 @@
       flex-shrink: 0;
       touch-action: manipulation;
       background: linear-gradient(135deg, var(--accent-jog), var(--accent-jog-dark));
+      transition: background 0.15s;
     }
     .huge-tap-btn:active {
       transform: scale(0.98);
-      filter: brightness(0.9);
     }
     .huge-tap-btn.dash-btn {
       background: linear-gradient(135deg, var(--accent-dash), #c25e00);
       color: #fff;
     }
+    /* 3秒ロック中の赤色状態 */
+    .huge-tap-btn.locked-red {
+      background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
+      color: #ffffff !important;
+      pointer-events: none;
+      transform: none;
+    }
     .tap-subtitle {
       font-size: 0.95rem;
-      font-weight: 600;
-      opacity: 0.9;
+      font-weight: 700;
+      opacity: 0.95;
     }
 
+    /* 下部操作エリア（左側幅拡大 ＋ 終了・保存文字倍増 ＋ ラップ文字倍増） */
     .split-bottom-area {
       flex: 1;
       display: flex;
       gap: 6px;
-      min-height: 90px;
+      min-height: 100px;
       overflow: hidden;
     }
 
-    /* 左側操作列 */
+    /* 左側操作列（幅を 85px -> 112px に拡大） */
     .left-ctrl-col {
-      width: 85px;
+      width: 112px;
       display: flex;
       flex-direction: column;
       gap: 4px;
@@ -264,7 +285,7 @@
       color: #031c0e;
       border: none;
       border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 1.15rem;
       font-weight: 900;
       cursor: pointer;
       display: flex;
@@ -283,11 +304,11 @@
     }
 
     .btn-side-sub {
-      flex: 2;
+      flex: 2.2;
       border: none;
       border-radius: 6px;
-      font-size: 0.72rem;
-      font-weight: 800;
+      font-size: 1.35rem; /* 終了・保存の文字を倍増 */
+      font-weight: 900;
       cursor: pointer;
       display: flex;
       justify-content: center;
@@ -316,7 +337,7 @@
       color: #fff;
     }
 
-    /* 右側ラップリスト（コンパクト化） */
+    /* 右側ラップリスト（文字サイズを倍へ拡大） */
     .lap-list-container {
       flex: 1;
       background: var(--card);
@@ -328,12 +349,13 @@
     }
 
     .lap-header {
-      padding: 3px 6px;
-      font-size: 0.62rem;
+      padding: 4px 6px;
+      font-size: 0.9rem;
+      font-weight: 700;
       color: var(--text-sub);
       background: #13171e;
       display: grid;
-      grid-template-columns: 24px 1fr 44px 24px;
+      grid-template-columns: 32px 1fr 64px 32px;
       align-items: center;
       text-align: right;
       border-bottom: 1px solid var(--card-border);
@@ -346,17 +368,18 @@
     .lap-rows {
       flex: 1;
       overflow-y: auto;
-      padding: 1px 0;
+      padding: 2px 0;
     }
 
     .lap-row {
       display: grid;
-      grid-template-columns: 24px 1fr 44px 24px;
+      grid-template-columns: 32px 1fr 64px 32px;
       align-items: center;
-      padding: 3px 6px;
-      font-size: 0.72rem;
+      padding: 6px 6px;
+      font-size: 1.25rem;
+      font-weight: 800;
       font-variant-numeric: tabular-nums;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
       text-align: right;
     }
     .lap-row > span:nth-child(1),
@@ -368,11 +391,12 @@
       background: #101317;
       border: 1px solid #333f50;
       color: var(--accent-blue);
-      border-radius: 4px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 1px 0;
+      border-radius: 6px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      padding: 2px;
       text-align: center;
+      width: 100%;
     }
 
     .btn-lap-del {
@@ -380,110 +404,128 @@
       border: none;
       color: #ef4444;
       font-weight: 900;
-      font-size: 0.85rem;
+      font-size: 1.4rem;
       cursor: pointer;
       padding: 0;
+      line-height: 1;
     }
 
     /* =========================
-       筋トレタブ
+       筋トレタブ（文字・枠倍増 ＆ マシン名:部位 = 2:1）
        ========================= */
     .gym-scroll-container {
       flex: 1;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 12px;
       padding-right: 2px;
     }
 
     .gym-card {
       background: var(--card);
       border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 8px;
+      border-radius: 12px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 10px;
       position: relative;
     }
 
     .gym-row-1 {
       display: flex;
-      gap: 6px;
-      align-items: center;
+      gap: 8px;
+      align-items: stretch;
+      padding-right: 24px;
     }
-    .gym-col-half {
+    /* マシン名枠を大きく（比率 2） */
+    .gym-col-machine {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    /* 主動部位枠を半分に（比率 1） */
+    .gym-col-part {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 4px;
     }
     .gym-label {
-      font-size: 0.65rem;
+      font-size: 0.95rem;
+      font-weight: 700;
       color: var(--text-sub);
     }
     .gym-select, .gym-target-part {
       background: #111419;
       border: 1px solid var(--card-border);
       color: #fff;
-      border-radius: 6px;
-      padding: 5px 6px;
-      font-size: 0.8rem;
+      border-radius: 8px;
+      padding: 10px 8px;
+      font-size: 1.15rem;
+      font-weight: 800;
       width: 100%;
+      min-height: 48px;
     }
     .gym-target-part {
       color: var(--accent-blue);
-      font-weight: 700;
       display: flex;
       align-items: center;
-      min-height: 29px;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.95rem;
+      padding: 6px 4px;
     }
 
     .gym-row-2 {
       display: flex;
-      gap: 6px;
+      gap: 8px;
     }
     .gym-col-third {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 4px;
     }
     .gym-input-num {
       background: #111419;
       border: 1px solid var(--card-border);
       color: #fff;
-      border-radius: 6px;
-      padding: 4px;
-      font-size: 0.85rem;
-      font-weight: 700;
+      border-radius: 8px;
+      padding: 10px 6px;
+      font-size: 1.35rem;
+      font-weight: 900;
       text-align: center;
       width: 100%;
+      min-height: 48px;
       user-select: text;
       -webkit-user-select: text;
     }
 
     .btn-remove-card {
       position: absolute;
-      top: 4px;
-      right: 6px;
+      top: 8px;
+      right: 8px;
       background: none;
       border: none;
       color: var(--text-sub);
-      font-size: 1rem;
+      font-size: 1.6rem;
+      font-weight: 900;
       cursor: pointer;
+      line-height: 1;
     }
     .btn-remove-card:hover { color: var(--accent-danger); }
 
     .btn-add-exercise {
       background: #1a2230;
-      border: 1px dashed var(--accent-blue);
+      border: 2px dashed var(--accent-blue);
       color: var(--accent-blue);
-      border-radius: 8px;
-      padding: 8px;
-      font-size: 0.85rem;
-      font-weight: 800;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 1.15rem;
+      font-weight: 900;
       cursor: pointer;
       text-align: center;
     }
@@ -491,10 +533,10 @@
     .gym-memo-area {
       background: #111419;
       border: 1px solid var(--card-border);
-      border-radius: 8px;
+      border-radius: 10px;
       color: #fff;
-      padding: 6px;
-      font-size: 0.8rem;
+      padding: 10px;
+      font-size: 1.1rem;
       width: 100%;
       resize: none;
       user-select: text;
@@ -505,37 +547,40 @@
       background: var(--accent-gym);
       color: #fff;
       border: none;
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 0.95rem;
-      font-weight: 800;
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 1.25rem;
+      font-weight: 900;
       cursor: pointer;
       flex-shrink: 0;
     }
 
-    /* 履歴 */
+    /* =========================
+       履歴タブ（文字・枠を全体倍サイズに拡大）
+       ========================= */
     .history-card {
       background: var(--card);
       border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 6px 8px;
-      font-size: 0.75rem;
-      margin-bottom: 6px;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 1.15rem;
+      margin-bottom: 10px;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 6px;
     }
     .history-card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-weight: 700;
+      font-weight: 800;
+      font-size: 1.25rem;
     }
     .history-del-btn {
       background: none;
       border: none;
       color: var(--text-sub);
-      font-size: 0.9rem;
+      font-size: 1.5rem;
       cursor: pointer;
       padding: 0 4px;
     }
@@ -543,12 +588,12 @@
     .history-details {
       display: none;
       background: #111419;
-      border-radius: 4px;
-      padding: 5px;
-      font-size: 0.7rem;
-      max-height: 120px;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 1.05rem;
+      max-height: 220px;
       overflow-y: auto;
-      margin-top: 3px;
+      margin-top: 6px;
     }
     .history-details.open {
       display: block;
@@ -557,44 +602,46 @@
       background: #1e2530;
       border: 1px solid #333f50;
       color: var(--accent-blue);
-      border-radius: 4px;
-      padding: 2px 6px;
-      font-size: 0.68rem;
-      font-weight: 700;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 0.95rem;
+      font-weight: 800;
       cursor: pointer;
-      margin-right: 6px;
+      margin-right: 10px;
     }
 
-    /* モーダル共通 */
+    /* =========================
+       モーダル共通 ＆ デフォルト編集（並べ替え・追加・最下段3倍ボタン）
+       ========================= */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.75);
+      background: rgba(0,0,0,0.8);
       display: none;
       justify-content: center;
       align-items: center;
       z-index: 100;
-      padding: 12px;
+      padding: 10px;
     }
     .modal-content {
       background: #181d24;
       border: 1px solid var(--card-border);
       border-radius: 12px;
       width: 100%;
-      max-width: 460px;
-      max-height: 85vh;
+      max-width: 500px;
+      max-height: 90vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
     .modal-header {
-      padding: 10px 12px;
+      padding: 12px 14px;
       background: #14181f;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-weight: 700;
-      font-size: 0.9rem;
+      font-weight: 800;
+      font-size: 1.05rem;
       border-bottom: 1px solid var(--card-border);
     }
     .modal-body {
@@ -608,11 +655,50 @@
     .default-edit-row {
       background: #111419;
       border: 1px solid var(--card-border);
-      border-radius: 6px;
-      padding: 6px;
+      border-radius: 8px;
+      padding: 8px;
       display: flex;
-      flex-direction: column;
-      gap: 3px;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.1s, background 0.1s;
+    }
+    .default-edit-row.dragging {
+      opacity: 0.6;
+      background: #1e293b;
+      border-color: var(--accent-blue);
+    }
+    /* ≡ 三本線の並べ替えハンドル */
+    .drag-handle {
+      font-size: 1.6rem;
+      color: var(--text-sub);
+      cursor: grab;
+      padding: 4px 6px;
+      touch-action: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .drag-handle:active {
+      cursor: grabbing;
+      color: #fff;
+    }
+
+    /* 最下段ボタン（縦3倍サイズ） */
+    .modal-footer-tall {
+      padding: 10px;
+      background: #14181f;
+      display: flex;
+      gap: 8px;
+      border-top: 1px solid var(--card-border);
+    }
+    .btn-modal-tall {
+      flex: 1;
+      min-height: 76px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.15rem;
+      font-weight: 900;
+      cursor: pointer;
     }
 
     /* コース計測モーダル専用スタイル */
@@ -620,18 +706,18 @@
       display: flex;
       background: #111419;
       border-radius: 8px;
-      padding: 3px;
+      padding: 4px;
       gap: 4px;
     }
     .measure-tab-btn {
       flex: 1;
-      padding: 6px;
+      padding: 10px 6px;
       border: none;
       border-radius: 6px;
       background: none;
       color: var(--text-sub);
-      font-size: 0.78rem;
-      font-weight: 700;
+      font-size: 0.95rem;
+      font-weight: 800;
       cursor: pointer;
     }
     .measure-tab-btn.active {
@@ -641,7 +727,7 @@
     .measure-section {
       display: none;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
     .measure-section.active {
       display: flex;
@@ -650,20 +736,20 @@
       background: #111419;
       border: 1px solid var(--card-border);
       border-radius: 8px;
-      padding: 10px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
     .measure-result-box {
       background: #0d1926;
       border: 1px solid #1e3a5f;
       border-radius: 8px;
-      padding: 10px;
+      padding: 12px;
       text-align: center;
     }
     .measure-big-num {
-      font-size: 2rem;
+      font-size: 2.3rem;
       font-weight: 900;
       color: var(--accent-jog);
       font-variant-numeric: tabular-nums;
@@ -673,9 +759,9 @@
       color: #031c0e;
       border: none;
       border-radius: 8px;
-      padding: 10px;
-      font-size: 0.9rem;
-      font-weight: 800;
+      padding: 14px;
+      font-size: 1.05rem;
+      font-weight: 900;
       cursor: pointer;
       width: 100%;
     }
@@ -699,10 +785,10 @@
     <!-- 1. ジョグ周回タブ -->
     <div class="tab-pane active" id="jogTab">
       <div class="config-box">
-        <span>体育館 1周の距離:</span>
-        <div style="display:flex; align-items:center;">
+        <span>体育館 1周:</span>
+        <div class="config-controls-right">
           <input type="number" id="jogLapDistance" class="config-input" value="275" step="5">
-          <span style="margin-left:3px;">m</span>
+          <span>m</span>
           <button type="button" class="btn-measure-open" id="openMeasureModalBtn">📏 計測</button>
         </div>
       </div>
@@ -716,7 +802,7 @@
             <span class="metric-val" id="jogLapCount">0</span>
           </div>
           <div class="metric-item">
-            <span class="metric-label">現在ラップ (継続)</span>
+            <span class="metric-label">現在ラップ</span>
             <span class="metric-val" id="jogCurrentLap" style="color:var(--accent-blue);">00:00.0</span>
           </div>
           <div class="metric-item">
@@ -726,10 +812,10 @@
         </div>
       </div>
 
-      <!-- 巨大タップボタン（210px固定） -->
+      <!-- 巨大タップボタン（3秒赤色ロック機能付き） -->
       <button class="huge-tap-btn" id="jogTapBtn">
-        <span>+1 周 カウント</span>
-        <span class="tap-subtitle">タップで周回加算 & ラップ刻み</span>
+        <span id="jogTapMainText">+1 周 カウント</span>
+        <span class="tap-subtitle" id="jogTapSubText">タップで周回加算 & ラップ刻み</span>
       </button>
 
       <!-- 下部操作エリア -->
@@ -759,9 +845,9 @@
     <div class="tab-pane" id="dashTab">
       <div class="config-box">
         <span>距離設定:</span>
-        <div>
+        <div class="config-controls-right">
           <input type="number" id="dashDistanceSetting" class="config-input" value="200" step="10">
-          <span> m</span>
+          <span>m</span>
         </div>
       </div>
 
@@ -774,7 +860,7 @@
             <span class="metric-val" id="dashLapCount">0</span>
           </div>
           <div class="metric-item">
-            <span class="metric-label">現在ラップ (継続)</span>
+            <span class="metric-label">現在ラップ</span>
             <span class="metric-val" id="dashCurrentLap" style="color:#fdba74;">00:00.00</span>
           </div>
           <div class="metric-item">
@@ -784,10 +870,10 @@
         </div>
       </div>
 
-      <!-- 巨大タップボタン（210px固定） -->
+      <!-- 巨大タップボタン（3秒赤色ロック機能付き） -->
       <button class="huge-tap-btn dash-btn" id="dashTapBtn">
-        <span>タップして記録</span>
-        <span class="tap-subtitle">通過ごとにタップ（距離は右側で指定可）</span>
+        <span id="dashTapMainText">タップして記録</span>
+        <span class="tap-subtitle" id="dashTapSubText">通過ごとにタップ（距離は右側で指定可）</span>
       </button>
 
       <!-- 下部操作エリア -->
@@ -802,7 +888,7 @@
         </div>
 
         <div class="lap-list-container">
-          <div class="lap-header" style="grid-template-columns: 24px 1fr 50px 24px;">
+          <div class="lap-header" style="grid-template-columns: 32px 1fr 64px 32px;">
             <span>#</span>
             <span>区間タイム</span>
             <span>距離(m)</span>
@@ -816,17 +902,17 @@
     <!-- 3. 筋トレタブ -->
     <div class="tab-pane" id="gymTab">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-shrink:0;">
-        <span style="font-size:0.8rem; font-weight:700;">マシン・種目記録</span>
-        <button class="btn-header" id="openDefaultEditModalBtn" style="color:var(--accent-gym);">⚙ デフォルト編集</button>
+        <span style="font-size:1.05rem; font-weight:800;">マシン・種目記録</span>
+        <button class="btn-header" id="openDefaultEditModalBtn" style="color:var(--accent-gym); font-size:0.95rem; padding:6px 12px;">⚙ デフォルト編集</button>
       </div>
 
       <div class="gym-scroll-container" id="gymScrollArea">
-        <div id="gymEntriesContainer" style="display:flex; flex-direction:column; gap:6px;"></div>
+        <div id="gymEntriesContainer" style="display:flex; flex-direction:column; gap:10px;"></div>
 
-        <button type="button" class="btn-add-exercise" id="btnAddExercise">＋ 種目を追加</button>
+        <button type="button" class="btn-add-exercise" id="btnAddExercise">＋ 種目を追加（空白カード）</button>
 
-        <div style="display:flex; flex-direction:column; gap:3px; margin-top:2px;">
-          <label style="font-size:0.7rem; color:var(--text-sub);">メモ（5行）</label>
+        <div style="display:flex; flex-direction:column; gap:4px; margin-top:4px;">
+          <label style="font-size:0.95rem; font-weight:700; color:var(--text-sub);">メモ（5行）</label>
           <textarea id="gymTotalMemo" class="gym-memo-area" rows="5" placeholder="今日の体調、追い込み度、有酸素の詳細など..."></textarea>
         </div>
 
@@ -837,8 +923,8 @@
     <!-- 4. 履歴タブ -->
     <div class="tab-pane" id="historyTab">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <span style="font-size:0.78rem; color:var(--text-sub);">保存されたアクティビティ</span>
-        <button class="btn-header" id="clearHistoryBtn" style="color:var(--accent-danger);">全削除</button>
+        <span style="font-size:1.05rem; font-weight:800; color:var(--text-sub);">保存されたアクティビティ</span>
+        <button class="btn-header" id="clearHistoryBtn" style="color:var(--accent-danger); font-size:0.95rem;">全削除</button>
       </div>
       <div id="historyList" style="flex:1; overflow-y:auto;"></div>
     </div>
@@ -849,7 +935,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <span>📏 コース1周の距離を測る</span>
-        <button class="history-del-btn" id="closeMeasureModalBtn" style="font-size:1.3rem;">×</button>
+        <button class="history-del-btn" id="closeMeasureModalBtn" style="font-size:1.6rem;">×</button>
       </div>
       <div class="modal-body">
         <div class="measure-tabs">
@@ -860,36 +946,36 @@
         <!-- ① 加速度センサー歩数計測 -->
         <div class="measure-section active" id="stepMeasureSect">
           <div class="measure-card">
-            <div style="font-size:0.75rem; font-weight:700; color:var(--accent-blue);">STEP 1: 歩幅の設定</div>
-            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.75rem;">
-              <span>身長から自動計算 (×0.45):</span>
+            <div style="font-size:0.9rem; font-weight:800; color:var(--accent-blue);">STEP 1: 歩幅の設定</div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.85rem;">
+              <span>身長から計算 (×0.45):</span>
               <div>
-                <input type="number" id="userHeightInput" class="config-input" value="170" style="width:55px;"> cm
+                <input type="number" id="userHeightInput" class="config-input" value="170" style="width:70px;"> cm
                 <button type="button" class="btn-header" id="calcStrideBtn" style="margin-left:4px;">反映</button>
               </div>
             </div>
-            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.78rem; margin-top:4px; padding-top:4px; border-top:1px solid rgba(255,255,255,0.06);">
-              <span style="font-weight:700;">あなたの歩行歩幅:</span>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.9rem; margin-top:4px; padding-top:6px; border-top:1px solid rgba(255,255,255,0.08);">
+              <span style="font-weight:700;">歩行歩幅:</span>
               <div>
-                <input type="number" id="userStrideInput" class="config-input" value="76" style="width:55px;"> cm
+                <input type="number" id="userStrideInput" class="config-input" value="76" style="width:70px;"> cm
               </div>
             </div>
           </div>
 
           <div class="measure-card">
-            <div style="font-size:0.75rem; font-weight:700; color:var(--accent-blue);">STEP 2: 1周歩いてカウント</div>
-            <p style="font-size:0.7rem; color:var(--text-sub); line-height:1.4;">
+            <div style="font-size:0.9rem; font-weight:800; color:var(--accent-blue);">STEP 2: 1周歩いてカウント</div>
+            <p style="font-size:0.8rem; color:var(--text-sub); line-height:1.4;">
               スマホをポケットに入れるか手に持ち、普段通りの歩幅でコースを1周歩いてください。
             </p>
             <div class="measure-result-box">
-              <div style="font-size:0.72rem; color:var(--text-sub);">検出歩数: <span id="stepCountDisplay" style="color:#fff; font-weight:800; font-size:1rem;">0</span> 歩</div>
-              <div class="measure-big-num"><span id="stepCalcDistDisplay">0</span> <small style="font-size:1rem;">m</small></div>
-              <div id="sensorStatusText" style="font-size:0.68rem; color:var(--text-sub); margin-top:2px;">待機中</div>
+              <div style="font-size:0.85rem; color:var(--text-sub);">検出歩数: <span id="stepCountDisplay" style="color:#fff; font-weight:900; font-size:1.25rem;">0</span> 歩</div>
+              <div class="measure-big-num"><span id="stepCalcDistDisplay">0</span> <small style="font-size:1.1rem;">m</small></div>
+              <div id="sensorStatusText" style="font-size:0.8rem; color:var(--text-sub); margin-top:2px;">待機中</div>
             </div>
 
-            <div style="display:flex; gap:6px;">
-              <button type="button" class="btn-side-main" id="toggleStepSensorBtn" style="height:42px; flex:2;">▶ 歩行計測スタート</button>
-              <button type="button" class="btn-side-sub btn-side-finish" id="resetStepSensorBtn" style="height:42px; flex:1;">リセット</button>
+            <div style="display:flex; gap:8px;">
+              <button type="button" class="btn-side-main" id="toggleStepSensorBtn" style="height:48px; flex:2;">▶ 歩行計測スタート</button>
+              <button type="button" class="btn-side-sub btn-side-finish" id="resetStepSensorBtn" style="height:48px; flex:1; font-size:1rem;">リセット</button>
             </div>
           </div>
 
@@ -899,30 +985,30 @@
         <!-- ③ 基準ペースからの逆算 -->
         <div class="measure-section" id="paceMeasureSect">
           <div class="measure-card">
-            <div style="font-size:0.75rem; font-weight:700; color:var(--accent-blue);">基準ペースと1周のタイムから逆算</div>
-            <p style="font-size:0.7rem; color:var(--text-sub); line-height:1.4;">
+            <div style="font-size:0.9rem; font-weight:800; color:var(--accent-blue);">基準ペースと1周のタイムから逆算</div>
+            <p style="font-size:0.8rem; color:var(--text-sub); line-height:1.4;">
               普段のジョグペースと、実際に1周走った時間からコース距離を逆算します。
             </p>
 
-            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.78rem; margin-top:4px;">
-              <span>普段のジョグペース (1km):</span>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.88rem; margin-top:4px;">
+              <span>ジョグペース (1km):</span>
               <div>
-                <input type="number" id="basePaceMinInput" class="config-input" value="5" style="width:45px;"> 分
-                <input type="number" id="basePaceSecInput" class="config-input" value="30" style="width:45px;"> 秒
+                <input type="number" id="basePaceMinInput" class="config-input" value="5" style="width:55px;"> 分
+                <input type="number" id="basePaceSecInput" class="config-input" value="30" style="width:55px;"> 秒
               </div>
             </div>
 
-            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.78rem; margin-top:4px;">
-              <span>1周にかかった時間:</span>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:0.88rem; margin-top:4px;">
+              <span>1周の時間:</span>
               <div>
-                <input type="number" id="oneLapSecInput" class="config-input" value="90" style="width:60px;"> 秒
-                <button type="button" class="btn-header" id="importLastLapBtn" style="margin-left:4px;" title="直前のラップ秒数を取得">直前ラップ引用</button>
+                <input type="number" id="oneLapSecInput" class="config-input" value="90" style="width:65px;"> 秒
+                <button type="button" class="btn-header" id="importLastLapBtn" style="margin-left:4px;">直前ラップ引用</button>
               </div>
             </div>
 
             <div class="measure-result-box" style="margin-top:6px;">
-              <div style="font-size:0.72rem; color:var(--text-sub);">推定コース1周距離</div>
-              <div class="measure-big-num"><span id="paceCalcDistDisplay">273</span> <small style="font-size:1rem;">m</small></div>
+              <div style="font-size:0.85rem; color:var(--text-sub);">推定コース1周距離</div>
+              <div class="measure-big-num"><span id="paceCalcDistDisplay">273</span> <small style="font-size:1.1rem;">m</small></div>
             </div>
           </div>
 
@@ -932,17 +1018,37 @@
     </div>
   </div>
 
-  <!-- デフォルト編集モーダル -->
+  <!-- デフォルト編集モーダル（器材追加・≡並べ替え・最下段3倍ボタン） -->
   <div class="modal-overlay" id="defaultEditModal">
     <div class="modal-content">
       <div class="modal-header">
-        <span>マシンのデフォルト基準値 編集</span>
-        <button class="history-del-btn" id="closeDefaultEditModalBtn" style="font-size:1.3rem;">×</button>
+        <span>器材・デフォルト基準値 編集</span>
+        <button class="history-del-btn" id="closeDefaultEditModalBtn" style="font-size:1.6rem;">×</button>
       </div>
-      <div class="modal-body" id="defaultEditList"></div>
-      <div style="padding:8px; background:#14181f; display:flex; gap:6px;">
-        <button class="btn-header" id="resetDefaultsBtn" style="flex:1;">初期値に戻す</button>
-        <button class="btn-header" id="saveDefaultsBtn" style="flex:1; background:var(--accent-gym); color:#fff;">変更を保存</button>
+      <div class="modal-body" id="defaultEditBody">
+        <div style="font-size:0.78rem; color:var(--text-sub);">※左端の「≡」を上下にドラッグして順番を並べ替えられます</div>
+        <div id="defaultEditList" style="display:flex; flex-direction:column; gap:8px;"></div>
+
+        <!-- 新しい器材を追加するフォーム -->
+        <div class="measure-card" style="margin-top:6px; border:1px dashed var(--accent-gym);">
+          <div style="font-size:0.9rem; font-weight:800; color:var(--accent-gym);">＋ 新しい器材を追加</div>
+          <div style="display:flex; gap:6px;">
+            <input type="text" id="newMachineName" class="config-input" style="flex:2; text-align:left; font-size:0.9rem;" placeholder="器材名 (例: ラットプル)">
+            <input type="text" id="newMachinePart" class="config-input" style="flex:1; text-align:left; font-size:0.9rem;" placeholder="部位 (例: 背中)">
+          </div>
+          <div style="display:flex; gap:6px;">
+            <input type="text" id="newMachineWeight" class="config-input" style="flex:1; text-align:center; font-size:0.9rem;" placeholder="重さ (30)">
+            <input type="text" id="newMachineReps" class="config-input" style="flex:1; text-align:center; font-size:0.9rem;" placeholder="回数 (10)">
+            <input type="text" id="newMachineSets" class="config-input" style="flex:1; text-align:center; font-size:0.9rem;" placeholder="セット (3)">
+          </div>
+          <button type="button" class="btn-header" id="addNewMachineBtn" style="background:var(--accent-gym); color:#fff; padding:8px; font-size:0.95rem;">リストに追加する</button>
+        </div>
+      </div>
+
+      <!-- 最下段ボタン（縦3倍サイズ） -->
+      <div class="modal-footer-tall">
+        <button type="button" class="btn-modal-tall" id="resetDefaultsBtn" style="background:#28303d; color:#fff;">初期値に戻す</button>
+        <button type="button" class="btn-modal-tall" id="saveDefaultsBtn" style="background:var(--accent-gym); color:#fff;">変更を保存</button>
       </div>
     </div>
   </div>
@@ -976,7 +1082,7 @@
     ];
 
     function getMachineMaster() {
-      const saved = localStorage.getItem('gym_machine_master_v1');
+      const saved = localStorage.getItem('gym_machine_master_v2');
       if (saved) {
         try { return JSON.parse(saved); } catch(e){}
       }
@@ -984,7 +1090,7 @@
     }
 
     function saveMachineMaster(data) {
-      localStorage.setItem('gym_machine_master_v1', JSON.stringify(data));
+      localStorage.setItem('gym_machine_master_v2', JSON.stringify(data));
     }
 
     // --- ユーティリティ ---
@@ -1031,7 +1137,7 @@
     });
 
     // ==========================================
-    // 1. ジョグ周回ロジック（リセット対応）
+    // 1. ジョグ周回ロジック（3秒赤色ロック ＋ 終了時最終ラップ記録）
     // ==========================================
     let jogTimer = null;
     let jogStartTime = 0;
@@ -1040,6 +1146,7 @@
     let jogLastTapMs = 0;
     let jogLaps = [];
     let jogIsFinished = false;
+    let jogLockTimeout = null;
 
     const jogTimeDisplay = document.getElementById('jogTimeDisplay');
     const jogDistDisplay = document.getElementById('jogDistDisplay');
@@ -1051,6 +1158,7 @@
     const jogStartPauseBtn = document.getElementById('jogStartPauseBtn');
     const jogFinishBtn = document.getElementById('jogFinishBtn');
     const jogSaveBtn = document.getElementById('jogSaveBtn');
+    const jogTapBtn = document.getElementById('jogTapBtn');
 
     function getTotalJogLapsCount() {
       return jogLaps.reduce((sum, item) => sum + item.lapCountMultiplier, 0);
@@ -1079,6 +1187,34 @@
 
     jogLapDistanceInput.addEventListener('input', updateJogDisplay);
 
+    // 3秒間の赤色ロック演出
+    function triggerJog3SecLock() {
+      if (jogLockTimeout) clearTimeout(jogLockTimeout);
+      jogTapBtn.classList.add('locked-red');
+      document.getElementById('jogTapMainText').innerText = '✔ 記録完了！';
+      document.getElementById('jogTapSubText').innerText = '二度押し防止ロック中（3秒間）';
+
+      jogLockTimeout = setTimeout(() => {
+        jogTapBtn.classList.remove('locked-red');
+        document.getElementById('jogTapMainText').innerText = '+1 周 カウント';
+        document.getElementById('jogTapSubText').innerText = 'タップで周回加算 & ラップ刻み';
+      }, 3000);
+    }
+
+    function recordJogLapInternal(totalMs) {
+      const lapMs = totalMs - jogLastTapMs;
+      jogLastTapMs = totalMs;
+
+      jogLaps.push({
+        id: Date.now() + Math.random(),
+        lapTime: lapMs,
+        totalTime: totalMs,
+        lapCountMultiplier: 1
+      });
+      renderJogLaps();
+      updateJogDisplay();
+    }
+
     jogStartPauseBtn.addEventListener('click', () => {
       jogIsFinished = false;
       jogFinishBtn.innerText = '終了';
@@ -1104,35 +1240,29 @@
       }
     });
 
-    document.getElementById('jogTapBtn').addEventListener('click', () => {
+    jogTapBtn.addEventListener('click', () => {
+      if (jogTapBtn.classList.contains('locked-red')) return;
+
       if (!jogIsRunning && jogElapsed === 0) {
         jogStartPauseBtn.click();
         return;
       }
       const totalMs = jogIsRunning ? jogElapsed + (Date.now() - jogStartTime) : jogElapsed;
-      const lapMs = totalMs - jogLastTapMs;
-      jogLastTapMs = totalMs;
-
-      jogLaps.push({
-        id: Date.now() + Math.random(),
-        lapTime: lapMs,
-        totalTime: totalMs,
-        lapCountMultiplier: 1
-      });
-      renderJogLaps();
-      updateJogDisplay();
-      vibrate(50);
+      recordJogLapInternal(totalMs);
+      triggerJog3SecLock();
+      vibrate(60);
     });
 
     function renderJogLaps() {
       jogLapList.innerHTML = '';
       [...jogLaps].reverse().forEach((l, revIdx) => {
         const actualIdx = jogLaps.length - 1 - revIdx;
+        const isCustom = l.lapCountMultiplier > 5;
         const row = document.createElement('div');
         row.className = 'lap-row';
         row.innerHTML = `
-          <span style="color:var(--text-sub); font-size:0.65rem;">#${actualIdx + 1}</span>
-          <span style="font-weight:700;">${formatTime(l.lapTime)}</span>
+          <span style="color:var(--text-sub); font-size:0.9rem;">#${actualIdx + 1}</span>
+          <span>${formatTime(l.lapTime)}</span>
           <span>
             <select class="lap-select-laps" data-idx="${actualIdx}">
               <option value="1" ${l.lapCountMultiplier === 1 ? 'selected' : ''}>1周</option>
@@ -1140,12 +1270,24 @@
               <option value="3" ${l.lapCountMultiplier === 3 ? 'selected' : ''}>3周</option>
               <option value="4" ${l.lapCountMultiplier === 4 ? 'selected' : ''}>4周</option>
               <option value="5" ${l.lapCountMultiplier === 5 ? 'selected' : ''}>5周</option>
+              ${isCustom ? `<option value="${l.lapCountMultiplier}" selected>${l.lapCountMultiplier}周</option>` : ''}
+              <option value="custom">自由入力</option>
             </select>
           </span>
           <span><button class="btn-lap-del" data-idx="${actualIdx}">×</button></span>
         `;
 
         row.querySelector('.lap-select-laps').addEventListener('change', (e) => {
+          if (e.target.value === 'custom') {
+            const input = prompt('周回数を半角数字で入力してください（例: 8）', l.lapCountMultiplier);
+            const num = parseInt(input, 10);
+            if (!isNaN(num) && num >= 1) {
+              jogLaps[actualIdx].lapCountMultiplier = num;
+            }
+            renderJogLaps();
+            updateJogDisplay();
+            return;
+          }
           jogLaps[actualIdx].lapCountMultiplier = parseInt(e.target.value, 10);
           updateJogDisplay();
         });
@@ -1176,6 +1318,7 @@
         return;
       }
 
+      // 走行中に終了を押した場合、停止と同時に最後のラップを自動カウント！
       if (jogIsRunning) {
         jogIsRunning = false;
         jogElapsed += Date.now() - jogStartTime;
@@ -1183,6 +1326,13 @@
         jogStartPauseBtn.classList.remove('running');
         document.getElementById('jogMainBtnIcon').innerText = '▶';
         document.getElementById('jogMainBtnText').innerText = 'スタート';
+
+        if (jogElapsed - jogLastTapMs > 300) {
+          recordJogLapInternal(jogElapsed);
+        }
+      } else if (jogElapsed > 0 && jogElapsed - jogLastTapMs > 300) {
+        // 一時停止状態から終了を押した場合も未確定の最後区間があればカウント
+        recordJogLapInternal(jogElapsed);
       }
 
       jogIsFinished = true;
@@ -1190,7 +1340,7 @@
       jogFinishBtn.style.color = '#ef4444';
       jogSaveBtn.classList.add('ready');
       updateJogDisplay();
-      vibrate([40, 40]);
+      vibrate([50, 50]);
     });
 
     jogSaveBtn.addEventListener('click', () => {
@@ -1201,6 +1351,7 @@
       const oneLapM = parseFloat(jogLapDistanceInput.value) || 275;
       const totalDistKm = ((totalLaps * oneLapM) / 1000).toFixed(2);
 
+      // 統一データ構造で保存
       const log = {
         id: Date.now(),
         date: getNowStamp(),
@@ -1210,8 +1361,8 @@
         avgLapStr: totalLaps > 0 ? formatTime(totalMs / totalLaps) : '--',
         details: jogLaps.map((l, i) => ({
           num: i + 1,
-          time: formatTime(l.lapTime),
-          laps: l.lapCountMultiplier
+          label: `${l.lapCountMultiplier}周`,
+          val: formatTime(l.lapTime)
         }))
       };
 
@@ -1236,7 +1387,6 @@
     const openMeasureModalBtn = document.getElementById('openMeasureModalBtn');
     const closeMeasureModalBtn = document.getElementById('closeMeasureModalBtn');
 
-    // タブ切り替え
     document.querySelectorAll('.measure-tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.measure-tab-btn').forEach(b => b.classList.remove('active'));
@@ -1256,7 +1406,6 @@
       measureCourseModal.style.display = 'none';
     });
 
-    // --- ① 歩数・歩幅計測ロジック ---
     const userHeightInput = document.getElementById('userHeightInput');
     const userStrideInput = document.getElementById('userStrideInput');
     const calcStrideBtn = document.getElementById('calcStrideBtn');
@@ -1270,10 +1419,8 @@
     let isStepMeasuring = false;
     let detectedSteps = 0;
     let lastStepTimestamp = 0;
-    let lastAccelMag = 9.8;
     let stepUpwardFlag = false;
 
-    // 歩幅の保存・復元
     const savedStride = localStorage.getItem('gym_user_stride_cm');
     if (savedStride) userStrideInput.value = savedStride;
 
@@ -1307,13 +1454,12 @@
       const z = acc.z || 0;
       const mag = Math.sqrt(x * x + y * y + z * z);
 
-      // 重力加速度(約9.8)からの上下振動ピーク検出（閾値設定とデバウンス）
       const now = Date.now();
-      const thresholdHigh = 11.2; // 踏み込み時のピーク閾値
+      const thresholdHigh = 11.2;
       const thresholdLow = 9.6;
 
       if (mag > thresholdHigh && !stepUpwardFlag) {
-        if (now - lastStepTimestamp > 320) { // 最速ピッチ制限（0.32秒以内の二重検知防止）
+        if (now - lastStepTimestamp > 320) {
           detectedSteps++;
           lastStepTimestamp = now;
           updateStepCalcDisplay();
@@ -1322,16 +1468,14 @@
       } else if (mag < thresholdLow) {
         stepUpwardFlag = false;
       }
-      lastAccelMag = mag;
     }
 
     async function startStepSensor() {
-      // iOS 13+ Safari向けのモーションセンサー許可リクエスト
       if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
         try {
           const permState = await DeviceMotionEvent.requestPermission();
           if (permState !== 'granted') {
-            alert('モーションセンサーの許可が拒否されました。ブラウザの設定から動作と方向へのアクセスを許可してください。');
+            alert('モーションセンサーの許可が拒否されました。ブラウザの設定からアクセスを許可してください。');
             return;
           }
         } catch (err) {
@@ -1365,11 +1509,8 @@
     }
 
     toggleStepSensorBtn.addEventListener('click', () => {
-      if (isStepMeasuring) {
-        stopStepSensor();
-      } else {
-        startStepSensor();
-      }
+      if (isStepMeasuring) stopStepSensor();
+      else startStepSensor();
     });
 
     resetStepSensorBtn.addEventListener('click', () => {
@@ -1392,7 +1533,6 @@
       alert(`1周の距離を「${dist}m」に反映しました！`);
     });
 
-    // --- ③ 基準ペース逆算ロジック ---
     const basePaceMinInput = document.getElementById('basePaceMinInput');
     const basePaceSecInput = document.getElementById('basePaceSecInput');
     const oneLapSecInput = document.getElementById('oneLapSecInput');
@@ -1407,7 +1547,6 @@
       const lapSec = parseFloat(oneLapSecInput.value) || 0;
 
       if (secPerKm > 0 && lapSec > 0) {
-        // 1000m : secPerKm = Xm : lapSec  =>  X = 1000 * lapSec / secPerKm
         const estimatedM = Math.round((1000 * lapSec) / secPerKm);
         paceCalcDistDisplay.innerText = estimatedM;
       } else {
@@ -1422,8 +1561,7 @@
     importLastLapBtn.addEventListener('click', () => {
       if (jogLaps.length > 0) {
         const lastLap = jogLaps[jogLaps.length - 1];
-        const sec = Math.round(lastLap.lapTime / 1000);
-        oneLapSecInput.value = sec;
+        oneLapSecInput.value = Math.round(lastLap.lapTime / 1000);
         calcPaceReverseDistance();
       } else {
         alert('まだジョグのラップ記録がありません。');
@@ -1440,7 +1578,7 @@
     });
 
     // ==========================================
-    // 2. ダッシュ計測ロジック（リセット対応）
+    // 2. ダッシュ計測ロジック（3秒赤色ロック ＋ 終了時最終ラップ記録）
     // ==========================================
     let dashTimer = null;
     let dashStartTime = 0;
@@ -1449,6 +1587,7 @@
     let dashLastTapMs = 0;
     let dashLaps = [];
     let dashIsFinished = false;
+    let dashLockTimeout = null;
 
     const dashTimeDisplay = document.getElementById('dashTimeDisplay');
     const dashLapCount = document.getElementById('dashLapCount');
@@ -1460,6 +1599,7 @@
     const dashStartPauseBtn = document.getElementById('dashStartPauseBtn');
     const dashFinishBtn = document.getElementById('dashFinishBtn');
     const dashSaveBtn = document.getElementById('dashSaveBtn');
+    const dashTapBtn = document.getElementById('dashTapBtn');
 
     dashDistanceSetting.addEventListener('input', () => {
       dashInfoRow.innerText = `${dashDistanceSetting.value || 0}m 計測`;
@@ -1471,6 +1611,36 @@
 
       const curMs = Math.max(0, totalMs - dashLastTapMs);
       dashCurrentLap.innerText = formatTime(curMs, true);
+    }
+
+    function triggerDash3SecLock() {
+      if (dashLockTimeout) clearTimeout(dashLockTimeout);
+      dashTapBtn.classList.add('locked-red');
+      document.getElementById('dashTapMainText').innerText = '✔ 記録完了！';
+      document.getElementById('dashTapSubText').innerText = '二度押し防止ロック中（3秒間）';
+
+      dashLockTimeout = setTimeout(() => {
+        dashTapBtn.classList.remove('locked-red');
+        document.getElementById('dashTapMainText').innerText = 'タップして記録';
+        document.getElementById('dashTapSubText').innerText = '通過ごとにタップ（距離は右側で指定可）';
+      }, 3000);
+    }
+
+    function recordDashLapInternal(totalMs) {
+      const lapMs = totalMs - dashLastTapMs;
+      dashLastTapMs = totalMs;
+
+      const approxDist = (dashLaps.length + 1) * 50;
+      dashLaps.push({
+        id: Date.now() + Math.random(),
+        lapTime: lapMs,
+        totalTime: totalMs,
+        distM: approxDist
+      });
+
+      dashLapCount.innerText = dashLaps.length;
+      dashLastLap.innerText = formatTime(lapMs, true);
+      renderDashLaps();
     }
 
     dashStartPauseBtn.addEventListener('click', () => {
@@ -1498,27 +1668,17 @@
       }
     });
 
-    document.getElementById('dashTapBtn').addEventListener('click', () => {
+    dashTapBtn.addEventListener('click', () => {
+      if (dashTapBtn.classList.contains('locked-red')) return;
+
       if (!dashIsRunning && dashElapsed === 0) {
         dashStartPauseBtn.click();
         return;
       }
       const totalMs = dashIsRunning ? dashElapsed + (Date.now() - dashStartTime) : dashElapsed;
-      const lapMs = totalMs - dashLastTapMs;
-      dashLastTapMs = totalMs;
-
-      const approxDist = (dashLaps.length + 1) * 50;
-      dashLaps.push({
-        id: Date.now() + Math.random(),
-        lapTime: lapMs,
-        totalTime: totalMs,
-        distM: approxDist
-      });
-
-      dashLapCount.innerText = dashLaps.length;
-      dashLastLap.innerText = formatTime(lapMs, true);
-      renderDashLaps();
-      vibrate(50);
+      recordDashLapInternal(totalMs);
+      triggerDash3SecLock();
+      vibrate(60);
     });
 
     function renderDashLaps() {
@@ -1527,12 +1687,12 @@
         const actualIdx = dashLaps.length - 1 - revIdx;
         const row = document.createElement('div');
         row.className = 'lap-row';
-        row.style.gridTemplateColumns = '24px 1fr 50px 24px';
+        row.style.gridTemplateColumns = '32px 1fr 64px 32px';
         row.innerHTML = `
-          <span style="color:var(--text-sub); font-size:0.65rem;">#${actualIdx + 1}</span>
-          <span style="font-weight:700;">${formatTime(l.lapTime, true)}</span>
+          <span style="color:var(--text-sub); font-size:0.9rem;">#${actualIdx + 1}</span>
+          <span>${formatTime(l.lapTime, true)}</span>
           <span>
-            <input type="number" class="config-input" style="width:46px; font-size:0.7rem; padding:1px;" value="${l.distM}" data-idx="${actualIdx}">
+            <input type="number" class="config-input" style="width:58px; font-size:1.05rem; padding:2px; text-align:center;" value="${l.distM}" data-idx="${actualIdx}">
           </span>
           <span><button class="btn-lap-del" data-idx="${actualIdx}">×</button></span>
         `;
@@ -1569,6 +1729,7 @@
         return;
       }
 
+      // 終了時に最後の区間ラップを自動カウント
       if (dashIsRunning) {
         dashIsRunning = false;
         dashElapsed += Date.now() - dashStartTime;
@@ -1576,6 +1737,12 @@
         dashStartPauseBtn.classList.remove('running');
         document.getElementById('dashMainBtnIcon').innerText = '▶';
         document.getElementById('dashMainBtnText').innerText = 'スタート';
+
+        if (dashElapsed - dashLastTapMs > 200) {
+          recordDashLapInternal(dashElapsed);
+        }
+      } else if (dashElapsed > 0 && dashElapsed - dashLastTapMs > 200) {
+        recordDashLapInternal(dashElapsed);
       }
 
       dashIsFinished = true;
@@ -1583,7 +1750,7 @@
       dashFinishBtn.style.color = '#ef4444';
       dashSaveBtn.classList.add('ready');
       updateDashDisplay();
-      vibrate([40, 40]);
+      vibrate([50, 50]);
     });
 
     dashSaveBtn.addEventListener('click', () => {
@@ -1591,16 +1758,18 @@
       if (totalMs < 500 && dashLaps.length === 0) return;
 
       const distVal = dashDistanceSetting.value || 200;
+      // 統一データ構造で保存
       const log = {
         id: Date.now(),
         date: getNowStamp(),
         type: `ダッシュ (${distVal}m)`,
         timeStr: formatTime(totalMs, true),
         distStr: `${distVal}m (${dashLaps.length}回計測)`,
+        avgLapStr: null,
         details: dashLaps.map((l, i) => ({
           num: i + 1,
-          time: formatTime(l.lapTime, true),
-          dist: `${l.distM}m`
+          label: `${l.distM}m`,
+          val: formatTime(l.lapTime, true)
         }))
       };
 
@@ -1621,35 +1790,36 @@
     });
 
     // ==========================================
-    // 3. 筋トレロジック
+    // 3. 筋トレロジック（比率 2:1 ＆ 追加カードはすべて空白）
     // ==========================================
     const gymEntriesContainer = document.getElementById('gymEntriesContainer');
     const btnAddExercise = document.getElementById('btnAddExercise');
     const btnSaveGymAll = document.getElementById('btnSaveGymAll');
 
-    function createGymCard(initialMachineName = null) {
+    function createGymCard(startBlank = false) {
       const master = getMachineMaster();
       const card = document.createElement('div');
       card.className = 'gym-card';
 
-      const defaultItem = initialMachineName 
-        ? master.find(m => m.name === initialMachineName) || master[0]
-        : master[0];
+      const defaultItem = startBlank ? { name: "", part: "-", weight: "", reps: "", sets: "" } : master[0];
 
-      const optionsHtml = master.map(m => `
-        <option value="${m.name}" ${m.name === defaultItem.name ? 'selected' : ''}>${m.name}</option>
-      `).join('');
+      const optionsHtml = `
+        <option value="" ${startBlank ? 'selected' : ''}>-- 選択 --</option>
+        ${master.map(m => `
+          <option value="${m.name}" ${!startBlank && m.name === defaultItem.name ? 'selected' : ''}>${m.name}</option>
+        `).join('')}
+      `;
 
       card.innerHTML = `
         <button type="button" class="btn-remove-card" title="削除">×</button>
         <div class="gym-row-1">
-          <div class="gym-col-half">
+          <div class="gym-col-machine">
             <span class="gym-label">マシン名</span>
             <select class="gym-select gym-machine-select">
               ${optionsHtml}
             </select>
           </div>
-          <div class="gym-col-half">
+          <div class="gym-col-part">
             <span class="gym-label">主動部位</span>
             <div class="gym-target-part">${defaultItem.part}</div>
           </div>
@@ -1658,15 +1828,15 @@
         <div class="gym-row-2">
           <div class="gym-col-third">
             <span class="gym-label">重さ (kg)</span>
-            <input type="text" class="gym-input-num gym-weight-input" value="${defaultItem.weight}">
+            <input type="text" class="gym-input-num gym-weight-input" value="${defaultItem.weight}" placeholder="-">
           </div>
           <div class="gym-col-third">
             <span class="gym-label">回数 / 時間</span>
-            <input type="text" class="gym-input-num gym-reps-input" value="${defaultItem.reps}">
+            <input type="text" class="gym-input-num gym-reps-input" value="${defaultItem.reps}" placeholder="-">
           </div>
           <div class="gym-col-third">
             <span class="gym-label">セット数</span>
-            <input type="text" class="gym-input-num gym-sets-input" value="${defaultItem.sets}">
+            <input type="text" class="gym-input-num gym-sets-input" value="${defaultItem.sets}" placeholder="-">
           </div>
         </div>
       `;
@@ -1678,6 +1848,13 @@
       const setsInput = card.querySelector('.gym-sets-input');
 
       selectEl.addEventListener('change', () => {
+        if (!selectEl.value) {
+          partEl.innerText = '-';
+          weightInput.value = '';
+          repsInput.value = '';
+          setsInput.value = '';
+          return;
+        }
         const currentMaster = getMachineMaster();
         const selected = currentMaster.find(m => m.name === selectEl.value);
         if (selected) {
@@ -1699,10 +1876,12 @@
       return card;
     }
 
-    gymEntriesContainer.appendChild(createGymCard());
+    // 初期表示は1枚
+    gymEntriesContainer.appendChild(createGymCard(false));
 
+    // 種目追加時はすべて空白状態で追加
     btnAddExercise.addEventListener('click', () => {
-      gymEntriesContainer.appendChild(createGymCard());
+      gymEntriesContainer.appendChild(createGymCard(true));
       document.getElementById('gymScrollArea').scrollTop = document.getElementById('gymScrollArea').scrollHeight;
     });
 
@@ -1712,6 +1891,7 @@
 
       cards.forEach(card => {
         const name = card.querySelector('.gym-machine-select').value;
+        if (!name) return; // 未選択の空白カードは除外
         const part = card.querySelector('.gym-target-part').innerText;
         const weight = card.querySelector('.gym-weight-input').value.trim();
         const reps = card.querySelector('.gym-reps-input').value.trim();
@@ -1720,19 +1900,26 @@
         list.push({ name, part, weight, reps, sets });
       });
 
+      if (list.length === 0) {
+        alert('マシンを選択してください。');
+        return;
+      }
+
       const memo = document.getElementById('gymTotalMemo').value.trim();
 
+      // 統一データ構造で保存
       const log = {
         id: Date.now(),
         date: getNowStamp(),
         type: '筋トレ',
         timeStr: '-',
         distStr: `${list.length}種目 実施`,
+        avgLapStr: null,
         memo: memo,
         details: list.map((item, idx) => ({
           num: idx + 1,
-          time: `${item.weight !== '-' ? item.weight + 'kg' : ''} ${item.reps !== '-' ? item.reps + '回/分' : ''} ${item.sets !== '-' ? item.sets + 'set' : ''}`,
-          dist: `${item.name} [${item.part}]`
+          label: `${item.name} [${item.part}]`,
+          val: `${item.weight && item.weight !== '-' ? item.weight + 'kg ' : ''}${item.reps && item.reps !== '-' ? item.reps + '回/分 ' : ''}${item.sets && item.sets !== '-' ? item.sets + 'set' : ''}`.trim()
         }))
       };
 
@@ -1740,12 +1927,12 @@
       alert('本日の筋トレログを保存しました！');
 
       gymEntriesContainer.innerHTML = '';
-      gymEntriesContainer.appendChild(createGymCard());
+      gymEntriesContainer.appendChild(createGymCard(false));
       document.getElementById('gymTotalMemo').value = '';
     });
 
     // ==========================================
-    // デフォルト値編集モーダル
+    // デフォルト値編集モーダル（器材追加 ＆ ≡並べ替え機能）
     // ==========================================
     const defaultEditModal = document.getElementById('defaultEditModal');
     const openDefaultEditModalBtn = document.getElementById('openDefaultEditModalBtn');
@@ -1753,31 +1940,138 @@
     const defaultEditList = document.getElementById('defaultEditList');
     const saveDefaultsBtn = document.getElementById('saveDefaultsBtn');
     const resetDefaultsBtn = document.getElementById('resetDefaultsBtn');
+    const addNewMachineBtn = document.getElementById('addNewMachineBtn');
 
     function renderDefaultEditRows() {
       const master = getMachineMaster();
-      defaultEditList.innerHTML = master.map((m, idx) => `
-        <div class="default-edit-row" data-idx="${idx}">
-          <div style="display:flex; justify-content:space-between; font-weight:700; font-size:0.78rem;">
-            <span>${m.name}</span>
-            <span style="color:var(--accent-blue);">${m.part}</span>
+      defaultEditList.innerHTML = '';
+
+      master.forEach((m, idx) => {
+        const row = document.createElement('div');
+        row.className = 'default-edit-row';
+        row.draggable = true;
+        row.dataset.name = m.name;
+        row.dataset.part = m.part;
+
+        row.innerHTML = `
+          <div class="drag-handle" title="上下ドラッグで並べ替え">≡</div>
+          <div style="flex:1; display:flex; flex-direction:column; gap:4px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; font-weight:800; font-size:0.88rem;">
+              <span>${m.name}</span>
+              <div>
+                <span style="color:var(--accent-blue); margin-right:6px;">${m.part}</span>
+                <button type="button" class="btn-del-machine" style="background:none; border:none; color:#ef4444; font-weight:900; font-size:1rem; cursor:pointer;">×</button>
+              </div>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <div style="flex:1;">
+                <span style="font-size:0.65rem; color:var(--text-sub);">重さ</span>
+                <input type="text" class="config-input def-weight" style="width:100%; text-align:center; font-size:0.9rem; padding:3px;" value="${m.weight}">
+              </div>
+              <div style="flex:1;">
+                <span style="font-size:0.65rem; color:var(--text-sub);">回数</span>
+                <input type="text" class="config-input def-reps" style="width:100%; text-align:center; font-size:0.9rem; padding:3px;" value="${m.reps}">
+              </div>
+              <div style="flex:1;">
+                <span style="font-size:0.65rem; color:var(--text-sub);">セット</span>
+                <input type="text" class="config-input def-sets" style="width:100%; text-align:center; font-size:0.9rem; padding:3px;" value="${m.sets}">
+              </div>
+            </div>
           </div>
-          <div style="display:flex; gap:6px;">
-            <div style="flex:1;">
-              <span style="font-size:0.62rem; color:var(--text-sub);">重さ</span>
-              <input type="text" class="config-input def-weight" style="width:100%; text-align:center;" value="${m.weight}">
-            </div>
-            <div style="flex:1;">
-              <span style="font-size:0.62rem; color:var(--text-sub);">回数</span>
-              <input type="text" class="config-input def-reps" style="width:100%; text-align:center;" value="${m.reps}">
-            </div>
-            <div style="flex:1;">
-              <span style="font-size:0.62rem; color:var(--text-sub);">セット</span>
-              <input type="text" class="config-input def-sets" style="width:100%; text-align:center;" value="${m.sets}">
-            </div>
-          </div>
-        </div>
-      `).join('');
+        `;
+
+        // 器材個別削除
+        row.querySelector('.btn-del-machine').addEventListener('click', () => {
+          if (confirm(`「${m.name}」をリストから削除しますか？`)) {
+            row.remove();
+          }
+        });
+
+        // PCドラッグ＆ドロップ並べ替え
+        row.addEventListener('dragstart', () => row.classList.add('dragging'));
+        row.addEventListener('dragend', () => row.classList.remove('dragging'));
+
+        // スマホタッチ上下スライド並べ替え（≡ハンドル操作時）
+        const handle = row.querySelector('.drag-handle');
+        handle.addEventListener('touchstart', (e) => {
+          row.classList.add('dragging');
+        }, { passive: true });
+
+        handle.addEventListener('touchmove', (e) => {
+          e.preventDefault();
+          const touch = e.touches[0];
+          const targetEl = document.elementFromPoint(touch.clientX, touch.clientY);
+          const targetRow = targetEl ? targetEl.closest('.default-edit-row') : null;
+          if (targetRow && targetRow !== row) {
+            const rect = targetRow.getBoundingClientRect();
+            const isAfter = touch.clientY > rect.top + rect.height / 2;
+            if (isAfter) {
+              defaultEditList.insertBefore(row, targetRow.nextSibling);
+            } else {
+              defaultEditList.insertBefore(row, targetRow);
+            }
+          }
+        }, { passive: false });
+
+        handle.addEventListener('touchend', () => {
+          row.classList.remove('dragging');
+        });
+
+        defaultEditList.appendChild(row);
+      });
+    }
+
+    // PC用ドラッグオーバー配置判定
+    defaultEditList.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      const dragging = defaultEditList.querySelector('.dragging');
+      if (!dragging) return;
+      const siblings = [...defaultEditList.querySelectorAll('.default-edit-row:not(.dragging)')];
+      const nextSibling = siblings.find(sib => {
+        const rect = sib.getBoundingClientRect();
+        return e.clientY <= rect.top + rect.height / 2;
+      });
+      defaultEditList.insertBefore(dragging, nextSibling);
+    });
+
+    // 新しい器材を追加
+    addNewMachineBtn.addEventListener('click', () => {
+      const name = document.getElementById('newMachineName').value.trim();
+      const part = document.getElementById('newMachinePart').value.trim() || '全身';
+      const weight = document.getElementById('newMachineWeight').value.trim() || '20';
+      const reps = document.getElementById('newMachineReps').value.trim() || '10';
+      const sets = document.getElementById('newMachineSets').value.trim() || '3';
+
+      if (!name) {
+        alert('追加する器材名を入力してください');
+        return;
+      }
+
+      const master = collectCurrentEditRows();
+      master.push({ name, part, weight, reps, sets });
+      saveMachineMaster(master);
+      renderDefaultEditRows();
+
+      document.getElementById('newMachineName').value = '';
+      document.getElementById('newMachinePart').value = '';
+      document.getElementById('newMachineWeight').value = '';
+      document.getElementById('newMachineReps').value = '';
+      document.getElementById('newMachineSets').value = '';
+    });
+
+    function collectCurrentEditRows() {
+      const rows = defaultEditList.querySelectorAll('.default-edit-row');
+      const updated = [];
+      rows.forEach(r => {
+        updated.push({
+          name: r.dataset.name,
+          part: r.dataset.part,
+          weight: r.querySelector('.def-weight').value.trim(),
+          reps: r.querySelector('.def-reps').value.trim(),
+          sets: r.querySelector('.def-sets').value.trim()
+        });
+      });
+      return updated;
     }
 
     openDefaultEditModalBtn.addEventListener('click', () => {
@@ -1790,28 +2084,21 @@
     });
 
     saveDefaultsBtn.addEventListener('click', () => {
-      const master = getMachineMaster();
-      const rows = defaultEditList.querySelectorAll('.default-edit-row');
-      rows.forEach(r => {
-        const idx = parseInt(r.dataset.idx, 10);
-        master[idx].weight = r.querySelector('.def-weight').value.trim();
-        master[idx].reps = r.querySelector('.def-reps').value.trim();
-        master[idx].sets = r.querySelector('.def-sets').value.trim();
-      });
-      saveMachineMaster(master);
-      alert('マシンの基準デフォルト値を更新しました！');
+      const updatedMaster = collectCurrentEditRows();
+      saveMachineMaster(updatedMaster);
+      alert('器材の順番とデフォルト基準値を保存しました！');
       defaultEditModal.style.display = 'none';
     });
 
     resetDefaultsBtn.addEventListener('click', () => {
-      if (confirm('すべてのマシンの数値を初期設定値に戻しますか？')) {
+      if (confirm('すべての器材・順番・数値を初期設定値に戻しますか？')) {
         saveMachineMaster(INITIAL_MACHINE_MASTER);
         renderDefaultEditRows();
       }
     });
 
     // ==========================================
-    // 4. 履歴保存 & 個別削除 & 詳細ラップ展開
+    // 4. 履歴保存 & 個別削除 & 詳細ラップ展開（統一フォーマット）
     // ==========================================
     function getLogs() {
       return JSON.parse(localStorage.getItem('gym_tracker_logs') || '[]');
@@ -1843,7 +2130,7 @@
       const logs = getLogs();
       const box = document.getElementById('historyList');
       if (logs.length === 0) {
-        box.innerHTML = '<div style="color:var(--text-sub); padding:20px; text-align:center;">履歴はありません</div>';
+        box.innerHTML = '<div style="color:var(--text-sub); padding:20px; text-align:center; font-size:1.1rem;">履歴はありません</div>';
         return;
       }
 
@@ -1854,12 +2141,17 @@
         if (hasDetails) {
           detailsHtml = `
             <div class="history-details" id="detail-${l.id}">
-              ${l.details.map(d => `
-                <div style="display:flex; justify-content:space-between; margin-bottom:2px;">
-                  <span>#${d.num} ${d.dist ? `(${d.dist})` : (d.laps ? `(${d.laps}周)` : '')}</span>
-                  <span style="font-weight:700;">${d.time}</span>
-                </div>
-              `).join('')}
+              ${l.details.map(d => {
+                // 新旧フォーマット互換読み取り（今後のデータはすべて label / val に統一）
+                const labelText = d.label || d.dist || (d.laps ? `${d.laps}周` : '');
+                const valText = d.val || d.time || '';
+                return `
+                  <div style="display:flex; justify-content:space-between; margin-bottom:4px; border-bottom:1px solid rgba(255,255,255,0.04); padding-bottom:2px;">
+                    <span>#${d.num} ${labelText ? `(${labelText})` : ''}</span>
+                    <span style="font-weight:800; color:#fff;">${valText}</span>
+                  </div>
+                `;
+              }).join('')}
             </div>
           `;
         }
@@ -1869,13 +2161,13 @@
             <div class="history-card-header">
               <span style="color:#fff;">${l.type}</span>
               <div style="display:flex; align-items:center;">
-                <span style="color:var(--accent-jog); margin-right:8px;">${l.timeStr !== '-' ? l.timeStr : ''}</span>
+                <span style="color:var(--accent-jog); margin-right:10px;">${l.timeStr !== '-' ? l.timeStr : ''}</span>
                 ${hasDetails ? `<button class="btn-toggle-detail" onclick="toggleHistoryDetail(${l.id}, this)">▼ 詳細</button>` : ''}
                 <button class="history-del-btn" onclick="deleteHistoryItem(${l.id})">🗑</button>
               </div>
             </div>
-            <div style="color:var(--text); font-weight:600;">${l.distStr || ''}</div>
-            <div style="color:var(--text-sub); font-size:0.68rem;">
+            <div style="color:var(--text); font-weight:700;">${l.distStr || ''}</div>
+            <div style="color:var(--text-sub); font-size:0.9rem;">
               ${l.date} ${l.avgLapStr ? '| 平均: ' + l.avgLapStr : ''} ${l.memo ? '| ' + l.memo : ''}
             </div>
             ${detailsHtml}
