@@ -420,6 +420,7 @@
       flex-direction: column;
       gap: 12px;
       padding-right: 2px;
+      padding-bottom: 18px; /* ← 画面下部スワイプ用の余白を追加 */
     }
 
     .gym-card {
@@ -776,7 +777,7 @@
 
   <nav>
     <button class="tab-btn active" data-tab="jogTab">ジョグ周回</button>
-    <button class="tab-btn dash-tab" data-tab="dashTab">ダッシュ計測</button>
+    <button class="tab-btn dash-tab" data-tab="dashTab">ダッシュ</button>
     <button class="tab-btn gym-tab" data-tab="gymTab">筋トレ</button>
     <button class="tab-btn" data-tab="historyTab">履歴</button>
   </nav>
@@ -785,11 +786,15 @@
     <!-- 1. ジョグ周回タブ -->
     <div class="tab-pane active" id="jogTab">
       <div class="config-box">
-        <span>体育館 1周:</span>
-        <div class="config-controls-right">
-          <input type="number" id="jogLapDistance" class="config-input" value="275" step="5">
+        <div style="display:flex; align-items:center; gap:4px;">
+          <span>目標:</span>
+          <input type="number" id="dashDistanceSetting" class="config-input" value="200" step="10" style="width:65px;">
           <span>m</span>
-          <button type="button" class="btn-measure-open" id="openMeasureModalBtn">📏 計測</button>
+        </div>
+        <div style="display:flex; align-items:center; gap:4px;">
+          <span>ラップ:</span>
+          <input type="number" id="dashLapDistanceSetting" class="config-input" value="50" step="10" style="width:60px;">
+          <span>m</span>
         </div>
       </div>
 
@@ -1178,8 +1183,10 @@
       jogDistDisplay.innerText = `${totalDistKm.toFixed(2)} km (${totalLaps} 周)`;
       jogLapCount.innerText = totalLaps;
 
-      if (totalLaps > 0 && totalMs > 1000) {
-        jogAvgLap.innerText = formatTime(totalMs / totalLaps);
+      // 平均ラップ (確定済みラップの合計時間 ÷ 総周回数)
+      if (totalLaps > 0) {
+        const confirmedLapMs = jogLaps.reduce((sum, item) => sum + item.lapTime, 0);
+        jogAvgLap.innerText = formatTime(confirmedLapMs / totalLaps);
       } else {
         jogAvgLap.innerText = `--:--.-`;
       }
@@ -1358,7 +1365,7 @@
         type: 'ジョグ周回',
         timeStr: formatTime(totalMs),
         distStr: `${totalDistKm} km (${totalLaps}周)`,
-        avgLapStr: totalLaps > 0 ? formatTime(totalMs / totalLaps) : '--',
+        avgLapStr: totalLaps > 0 ? formatTime(jogLaps.reduce((s, i) => s + i.lapTime, 0) / totalLaps) : '--',
         details: jogLaps.map((l, i) => ({
           num: i + 1,
           label: `${l.lapCountMultiplier}周`,
@@ -1630,7 +1637,8 @@
       const lapMs = totalMs - dashLastTapMs;
       dashLastTapMs = totalMs;
 
-      const approxDist = (dashLaps.length + 1) * 50;
+      const lapUnitM = parseFloat(document.getElementById('dashLapDistanceSetting').value) || 50;
+      const approxDist = (dashLaps.length + 1) * lapUnitM;
       dashLaps.push({
         id: Date.now() + Math.random(),
         lapTime: lapMs,
@@ -2160,15 +2168,15 @@
           <div class="history-card">
             <div class="history-card-header">
               <span style="color:#fff;">${l.type}</span>
-              <div style="display:flex; align-items:center;">
-                <span style="color:var(--accent-jog); margin-right:10px;">${l.timeStr !== '-' ? l.timeStr : ''}</span>
-                ${hasDetails ? `<button class="btn-toggle-detail" onclick="toggleHistoryDetail(${l.id}, this)">▼ 詳細</button>` : ''}
-                <button class="history-del-btn" onclick="deleteHistoryItem(${l.id})">🗑</button>
+              <div style="display:flex; align-items:center; flex-shrink:0;">
+                <span style="color:var(--accent-jog); margin-right:8px;">${l.timeStr !== '-' ? l.timeStr : ''}</span>
+                ${hasDetails ? `<button class="btn-toggle-detail" style="margin-right:0;" onclick="toggleHistoryDetail(${l.id}, this)">▼ 詳細</button>` : ''}
               </div>
             </div>
             <div style="color:var(--text); font-weight:700;">${l.distStr || ''}</div>
-            <div style="color:var(--text-sub); font-size:0.9rem;">
-              ${l.date} ${l.avgLapStr ? '| 平均: ' + l.avgLapStr : ''} ${l.memo ? '| ' + l.memo : ''}
+            <div style="display:flex; justify-content:space-between; align-items:center; color:var(--text-sub); font-size:0.9rem;">
+              <span>${l.date} ${l.avgLapStr ? '| 平均: ' + l.avgLapStr : ''} ${l.memo ? '| ' + l.memo : ''}</span>
+              <button class="history-del-btn" onclick="deleteHistoryItem(${l.id})">🗑</button>
             </div>
             ${detailsHtml}
           </div>
